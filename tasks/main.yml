@@ -101,3 +101,4 @@
     copy:
       content: "{{ mailcow_update.stdout }}"
       dest: "/var/log/mailcow-update/update-{{ ansible_date_time.iso8601_basic_short }}.log"
+    no_log: True
