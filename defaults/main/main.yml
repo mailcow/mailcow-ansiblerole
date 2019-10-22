@@ -1,0 +1,12 @@
+---
+
+mailcow__git_version: master
+
+mailcow__timezone: Europe/Berlin
+
+# Change theme (default: lumen)
+# Needs to be one of those: cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable, sandstone,
+# simplex, slate, spacelab, superhero, united, yeti
+# See https://bootswatch.com/
+# WARNING: Only lumen is loaded locally. Enabling any other theme, will download external sources.
+mailcow__theme: lumen

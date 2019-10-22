@@ -1,0 +1,80 @@
+---
+
+# -------------
+# Mailcow.conf
+# -------------
+
+mailcow__config_http_port: 80
+mailcow__config_http_bind: 0.0.0.0
+mailcow__config_https_port: 443
+mailcow__config_https_bind: 0.0.0.0
+
+
+# Set this to "allow" to enable the anyone pseudo user. Disabled by default.
+# When enabled, ACL can be created, that apply to "All authenticated users"
+# This should probably only be activated on mail hosts, that are used exclusivly by one organisation.
+# Otherwise a user might share data with too many other users.
+mailcow__config_acl_anyone: disallow
+
+# Garbage collector cleanup
+# Deleted domains and mailboxes are moved to /var/vmail/_garbage/timestamp_sanitizedstring
+# How long should objects remain in the garbage until they are being deleted? (value in minutes)
+# Check interval is hourly
+mailcow__config_maildir_gc_time: 1440
+
+# Additional SAN for the certificate
+#
+# You can use wildcard records to create specific names for every domain you add to mailcow.
+# Example: Add domains "example.com" and "example.net" to mailcow, change ADDITIONAL_SAN to a value like:
+#ADDITIONAL_SAN=imap.*,smtp.*
+# This will expand the certificate to "imap.example.com", "smtp.example.com", "imap.example.net", "imap.example.net"
+# plus every domain you add in the future.
+#
+# You can also just add static names...
+#ADDITIONAL_SAN=srv1.example.net
+# ...or combine wildcard and static names:
+#ADDITIONAL_SAN=imap.*,srv1.example.com
+#
+mailcow__config_additional_san:
+
+# Skip running ACME (acme-mailcow, Let's Encrypt certs) - y/n
+mailcow__config_skip_lets_encrypt: n
+
+# Create seperate certificates for all domains - y/n
+# this will allow adding more than 100 domains, but some email clients will not be able to connect with alternative hostnames
+# see https://wiki.dovecot.org/SSL/SNIClientSupport
+mailcow__config_enable_ssl_sni: n
+
+# Skip IPv4 check in ACME container - y/n
+mailcow__config_skip_ip_check: n
+
+# Skip HTTP verification in ACME container - y/n
+mailcow__config_skip_http_verification: n
+
+# Skip ClamAV (clamd-mailcow) anti-virus (Rspamd will auto-detect a missing ClamAV container) - y/n
+mailcow__config_skip_clamd: n
+
+# Skip Solr on low-memory systems or if you do not want to store a readable index of your mails in solr-vol-1.
+mailcow__config_skip_solr: n
+
+# Solr heap size in MB, there is no recommendation, please see Solr docs.
+# Solr is a prone to run OOM and should be monitored. Unmonitored Solr setups are not recommended.
+mailcow__config_solr_heap: 1024
+
+# Allow admins to log into SOGo as email user (without any password)
+mailcow__config_allow_admin_email_login: n
+
+# Enable watchdog (watchdog-mailcow) to restart unhealthy containers (experimental)
+mailcow__config_use_watchdog: n
+# Send notifications by mail (no DKIM signature, sent from watchdog@MAILCOW_HOSTNAME)
+# Can by multiple rcpts, NO quotation marks
+#WATCHDOG_NOTIFY_EMAIL=a@example.com,b@example.com,c@example.com
+mailcow__config_watchdog_notify_email:
+# Notify about banned IP (includes whois lookup)
+mailcow__config_watchdog_notify_ban: y
+
+# Max log lines per service to keep in Redis logs
+mailcow__config_log_lines: 9999
+
+# SOGo session timeout in minutes
+mailcow__config_sogo_expire_session: 480
