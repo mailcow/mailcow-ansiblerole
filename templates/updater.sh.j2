@@ -6,7 +6,7 @@ cd /opt/mailcow-dockerized
 
 echo "Updating updater before runnning update"
 git fetch origin master
-checkout origin/master update.sh
+git checkout origin/master update.sh
 
 if ./update.sh -c | grep -q 'Updated code is available'; then
 
