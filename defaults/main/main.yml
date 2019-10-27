@@ -10,3 +10,5 @@ mailcow__timezone: Europe/Berlin
 # See https://bootswatch.com/
 # WARNING: Only lumen is loaded locally. Enabling any other theme, will download external sources.
 mailcow__theme: lumen
+
+mailcow__install_updates: yes

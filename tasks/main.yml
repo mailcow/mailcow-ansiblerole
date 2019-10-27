@@ -67,7 +67,9 @@
   when: not mailcow_running.exists
 
 - name: Update mailcow
-  when: mailcow_running.exists
+  when:
+    - mailcow_running.exists
+    - mailcow__install_updates
   block:
 
   - name: Copy updater script
