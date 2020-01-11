@@ -1,0 +1,23 @@
+---
+kind: pipeline
+name: linting
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: lint
+  pull: default
+  image: timovibritannia/ansible
+  commands:
+  - ansible-lint ./
+  when:
+    branch:
+    - master
+    - dev
+
+trigger:
+  branch:
+  - master
+  - dev

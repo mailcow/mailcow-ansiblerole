@@ -1,5 +1,7 @@
 # mailcow: dockerized - Ansible role 🐮 + 🐋 = 💕
 
+[![Build Status](https://drone.mailcow.email/api/badges/mailcow/mailcow-ansiblerole/status.svg)](https://drone.mailcow.email/mailcow/mailcow-ansiblerole)
+
 This role will setup a mailcow dockerized email server.
 
 ## Prerequisites
