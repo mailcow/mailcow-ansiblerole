@@ -21,3 +21,9 @@ trigger:
   branch:
   - master
   - dev
+
+---
+kind: signature
+hmac: 76a35898b631eb4eb302b0fc945772662dd07182113cee05a593c0eb02c83d21
+
+...
