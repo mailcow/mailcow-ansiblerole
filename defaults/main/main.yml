@@ -12,3 +12,117 @@ mailcow__timezone: Europe/Berlin
 mailcow__theme: lumen
 
 mailcow__install_updates: yes
+
+# ------------------------------
+# HTTP/S Bindings
+# ------------------------------
+# You should use HTTPS, but in case of SSL offloaded reverse proxies:
+# Might be important: This will also change the binding within the container.
+# If you use a proxy within Docker, point it to the ports you set below.
+mailcow__config_http_port: 80
+mailcow__config_http_bind: '0.0.0.0'
+mailcow__config_https_port: 443
+mailcow__config_https_bind: '0.0.0.0'
+
+# Set this to "allow" to enable the anyone pseudo user. Disabled by default.
+# When enabled, ACL can be created, that apply to "All authenticated users"
+# This should probably only be activated on mail hosts, that are used exclusivly by one organisation.
+# Otherwise a user might share data with too many other users.
+mailcow__config_acl_anyone: 'disallow'
+
+# Garbage collector cleanup
+# Deleted domains and mailboxes are moved to /var/vmail/_garbage/timestamp_sanitizedstring
+# How long should objects remain in the garbage until they are being deleted? (value in minutes)
+# Check interval is hourly
+mailcow__config_maildir_gc_time: 1440
+
+# Additional SAN for the certificate
+#
+# You can use wildcard records to create specific names for every domain you add to mailcow.
+# Example: Add domains "example.com" and "example.net" to mailcow, change ADDITIONAL_SAN to a value like:
+#ADDITIONAL_SAN=imap.*,smtp.*
+# This will expand the certificate to "imap.example.com", "smtp.example.com", "imap.example.net", "imap.example.net"
+# plus every domain you add in the future.
+#
+# You can also just add static names...
+#ADDITIONAL_SAN=srv1.example.net
+# ...or combine wildcard and static names:
+#ADDITIONAL_SAN=imap.*,srv1.example.com
+#
+mailcow__config_additional_san: ''
+
+# Skip running ACME (acme-mailcow, Let's Encrypt certs) - y/n
+mailcow__config_skip_lets_encrypt: 'n'
+
+# Create seperate certificates for all domains - y/n
+# this will allow adding more than 100 domains, but some email clients will not be able to connect with alternative hostnames
+# see https://wiki.dovecot.org/SSL/SNIClientSupport
+mailcow__config_enable_ssl_sni: 'n'
+
+# Skip IPv4 check in ACME container - y/n
+mailcow__config_skip_ip_check: 'n'
+
+# Skip HTTP verification in ACME container - y/n
+mailcow__config_skip_http_verification: 'n'
+
+# Skip ClamAV (clamd-mailcow) anti-virus (Rspamd will auto-detect a missing ClamAV container) - y/n
+mailcow__config_skip_clamd: 'n'
+
+# Skip Solr on low-memory systems or if you do not want to store a readable index of your mails in solr-vol-1.
+mailcow__config_skip_solr: 'n'
+
+# Solr heap size in MB, there is no recommendation, please see Solr docs.
+# Solr is a prone to run OOM and should be monitored. Unmonitored Solr setups are not recommended.
+mailcow__config_solr_heap: 1024
+
+# Allow admins to log into SOGo as email user (without any password)
+mailcow__config_allow_admin_email_login: 'n'
+
+# Enable watchdog (watchdog-mailcow) to restart unhealthy containers (experimental)
+mailcow__config_use_watchdog: 'n'
+
+# Send notifications by mail (sent from watchdog@MAILCOW_HOSTNAME)
+# CAUTION:
+# 1. You should use external recipients
+# 2. Mails are sent unsigned (no DKIM)
+# 3. If you use DMARC, create a separate DMARC policy ("v=DMARC1; p=none;" in _dmarc.MAILCOW_HOSTNAME)
+# Multiple rcpts allowed, NO quotation marks, NO spaces
+#WATCHDOG_NOTIFY_EMAIL=a@example.com,b@example.com,c@example.com
+mailcow__config_watchdog_notify_email: ''
+
+# Notify about banned IP (includes whois lookup)
+mailcow__config_watchdog_notify_ban: 'y'
+
+# Checks if mailcow is an open relay. Requires a SAL. More checks will follow.
+# https://www.servercow.de/mailcow?lang=en
+# https://www.servercow.de/mailcow?lang=de
+# No data is collected. Opt-in and anonymous.
+# Will only work with unmodified mailcow setups.
+mailcow__config_watchdog_external_checks: 'n'
+
+# Max log lines per service to keep in Redis logs
+mailcow__config_log_lines: 9999
+
+# Internal IPv4 /24 subnet, format n.n.n (expands to n.n.n.0/24)
+mailcow__config_ipv4_network: '172.22.1'
+
+# Internal IPv6 subnet in fc00::/7
+mailcow__config_ipv6_network: 'fd4d:6169:6c63:6f77::/64'
+
+# Use this IPv4 for outgoing connections (SNAT)
+mailcow__config_snat_to_source: ''
+
+# Use this IPv6 for outgoing connections (SNAT)
+mailcow__config_snat6_to_source: ''
+
+# Create or override API key for web ui
+# You _must_ define API_ALLOW_FROM, which is a comma separated list of IPs
+# API_KEY allowed chars: a-z, A-Z, 0-9, -
+#mailcow__config_api_key: ''
+#mailcow__config_api_allow_from: '172.22.1.1,127.0.0.1'
+
+# mail_home is ~/Maildir
+mailcow__config_maildir_sub: 'Maildir'
+
+# SOGo session timeout in minutes
+mailcow__config_sogo_expire_session: 480

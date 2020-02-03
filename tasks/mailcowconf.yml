@@ -5,6 +5,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTP_PORT=.*"
     replace: "HTTP_PORT={{ mailcow__config_http_port }}"
+  when:
+    - mailcow__config_http_port is defined
   notify: Recreate mailcow
 
 - name: Configure HTTP_BIND
@@ -12,6 +14,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTP_BIND=.*"
     replace: "HTTP_BIND={{ mailcow__config_http_bind }}"
+  when:
+    - mailcow__config_http_bind is defined
   notify: Recreate mailcow
 
 - name: Configure HTTPS_PORT
@@ -19,6 +23,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTPS_PORT=.*"
     replace: "HTTPS_PORT={{ mailcow__config_https_port }}"
+  when:
+    - mailcow__config_https_port is defined
   notify: Recreate mailcow
 
 - name: Configure HTTPS_BIND
@@ -26,6 +32,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTPS_BIND=.*"
     replace: "HTTPS_BIND={{ mailcow__config_https_bind }}"
+  when:
+    - mailcow__config_https_bind is defined
   notify: Recreate mailcow
 
 - name: Configure ACL_ANYONE
@@ -33,6 +41,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ACL_ANYONE=.*"
     replace: "ACL_ANYONE={{ mailcow__config_acl_anyone }}"
+  when:
+    - mailcow__config_acl_anyone is defined
   notify: Recreate mailcow
 
 - name: Configure MAILDIR_GC_TIME
@@ -40,6 +50,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^MAILDIR_GC_TIME=.*"
     replace: "MAILDIR_GC_TIME={{ mailcow__config_maildir_gc_time }}"
+  when:
+    - mailcow__config_maildir_gc_time is defined
   notify: Recreate mailcow
 
 - name: Configure ADDITIONAL_SAN
@@ -47,6 +59,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ADDITIONAL_SAN=.*"
     replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san }}"
+  when:
+    - mailcow__config_additional_san is defined
   notify: Recreate mailcow
 
 - name: Configure SKIP_LETS_ENCRYPT
@@ -54,6 +68,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SKIP_LETS_ENCRYPT=.*"
     replace: "SKIP_LETS_ENCRYPT={{ mailcow__config_skip_lets_encrypt }}"
+  when:
+    - mailcow__config_skip_lets_encrypt is defined
   notify: Recreate mailcow
 
 - name: Configure ENABLE_SSL_SNI
@@ -61,6 +77,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ENABLE_SSL_SNI=.*"
     replace: "ENABLE_SSL_SNI={{ mailcow__config_enable_ssl_sni }}"
+  when:
+    - mailcow__config_enable_ssl_sni is defined
   notify: Recreate mailcow
 
 - name: Configure SKIP_IP_CHECK
@@ -68,6 +86,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SKIP_IP_CHECK=.*"
     replace: "SKIP_IP_CHECK={{ mailcow__config_skip_ip_check }}"
+  when:
+    - mailcow__config_skip_ip_check is defined
   notify: Recreate mailcow
 
 - name: Configure SKIP_HTTP_VERIFICATION
@@ -75,6 +95,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SKIP_HTTP_VERIFICATION=.*"
     replace: "SKIP_HTTP_VERIFICATION={{ mailcow__config_skip_http_verification }}"
+  when:
+    - mailcow__config_skip_http_verification is defined
   notify: Recreate mailcow
 
 - name: Configure SKIP_CLAMD
@@ -82,6 +104,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SKIP_CLAMD=.*"
     replace: "SKIP_CLAMD={{ mailcow__config_skip_clamd }}"
+  when:
+    - mailcow__config_skip_clamd is defined
   notify: Recreate mailcow
 
 - name: Configure SKIP_SOLR
@@ -89,6 +113,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SKIP_SOLR=.*"
     replace: "SKIP_SOLR={{ mailcow__config_skip_solr }}"
+  when:
+    - mailcow__config_skip_solr is defined
   notify: Recreate mailcow
 
 - name: Configure SOLR_HEAP
@@ -96,6 +122,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SOLR_HEAP=.*"
     replace: "SOLR_HEAP={{ mailcow__config_solr_heap }}"
+  when:
+    - mailcow__config_solr_heap is defined
   notify: Recreate mailcow
 
 - name: Configure ALLOW_ADMIN_EMAIL_LOGIN
@@ -103,6 +131,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ALLOW_ADMIN_EMAIL_LOGIN=.*"
     replace: "ALLOW_ADMIN_EMAIL_LOGIN={{ mailcow__config_allow_admin_email_login }}"
+  when:
+    - mailcow__config_allow_admin_email_login is defined
   notify: Recreate mailcow
 
 - name: Configure USE_WATCHDOG
@@ -110,6 +140,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^USE_WATCHDOG=.*"
     replace: "USE_WATCHDOG={{ mailcow__config_use_watchdog }}"
+  when:
+    - mailcow__config_use_watchdog is defined
   notify: Recreate mailcow
 
 - name: Uncomment WATCHDOG_NOTIFY_EMAIL line
@@ -124,6 +156,8 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^WATCHDOG_NOTIFY_EMAIL=.*"
     replace: "WATCHDOG_NOTIFY_EMAIL={{ mailcow__config_watchdog_notify_email }}"
+  when:
+    - mailcow__config_watchdog_notify_email is defined
   notify: Recreate mailcow
 
 - name: Configure WATCHDOG_NOTIFY_BAN
@@ -131,6 +165,17 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^WATCHDOG_NOTIFY_BAN=.*"
     replace: "WATCHDOG_NOTIFY_BAN={{ mailcow__config_watchdog_notify_ban }}"
+  when:
+    - mailcow__config_watchdog_notify_ban is defined
+  notify: Recreate mailcow
+
+- name: Configure WATCHDOG_EXTERNAL_CHECKS
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^WATCHDOG_EXTERNAL_CHECKS=.*"
+    replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_external_checks }}"
+  when:
+    - mailcow__config_watchdog_external_checks is defined
   notify: Recreate mailcow
 
 - name: Configure LOG_LINES
@@ -138,6 +183,71 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^LOG_LINES=.*"
     replace: "LOG_LINES={{ mailcow__config_log_lines }}"
+  when:
+    - mailcow__config_log_lines is defined
+  notify: Recreate mailcow
+
+- name: Configure IPV4_NETWORK
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^IPV4_NETWORK=.*"
+    replace: "IPV4_NETWORK={{ mailcow__config_ipv4_network }}"
+  when:
+    - mailcow__config_ipv4_network is defined
+  notify: Recreate mailcow
+
+- name: Configure IPV6_NETWORK
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^IPV6_NETWORK=.*"
+    replace: "IPV6_NETWORK={{ mailcow__config_ipv6_network }}"
+  when:
+    - mailcow__config_ipv6_network is defined
+  notify: Recreate mailcow
+
+- name: Configure SNAT_TO_SOURCE
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^#SNAT_TO_SOURCE=.*"
+    replace: "SNAT_TO_SOURCE={{ mailcow__config_snat_to_source }}"
+  when:
+    - mailcow__config_snat_to_source is defined
+  notify: Recreate mailcow
+
+- name: Configure SNAT6_TO_SOURCE
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^#SNAT6_TO_SOURCE=.*"
+    replace: "SNAT6_TO_SOURCE={{ mailcow__config_snat6_to_source }}"
+  when:
+    - mailcow__config_snat6_to_source is defined
+  notify: Recreate mailcow
+
+- name: Configure API_KEY
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^#API_KEY=.*"
+    replace: "API_KEY={{ mailcow__config_api_key }}"
+  when:
+    - mailcow__config_api_key is defined
+  notify: Recreate mailcow
+
+- name: Configure API_ALLOW_FROM
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^#API_ALLOW_FROM=.*"
+    replace: "API_ALLOW_FROM={{ mailcow__config_api_allow_from }}"
+  when:
+    - mailcow__config_api_allow_from is defined
+  notify: Recreate mailcow
+
+- name: Configure MAILDIR_SUB
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^MAILDIR_SUB=.*"
+    replace: "MAILDIR_SUB={{ mailcow__config_maildir_sub }}"
+  when:
+    - mailcow__config_maildir_sub is defined
   notify: Recreate mailcow
 
 - name: Configure SOGO_EXPIRE_SESSION
@@ -145,4 +255,6 @@
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^SOGO_EXPIRE_SESSION=.*"
     replace: "SOGO_EXPIRE_SESSION={{ mailcow__config_sogo_expire_session }}"
+  when:
+    - mailcow__config_sogo_expire_session is defined
   notify: Recreate mailcow
