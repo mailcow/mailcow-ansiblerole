@@ -46,6 +46,7 @@ this role will use the `inventory_hostname` as mailcow hostname, this means that
 |        `mailcow__config_log_lines`        |                       sets LOG_LINES in mailcow.conf                        |    `9999`     |             |
 |   `mailcow__config_sogo_expire_session`   |                  sets SOGO_EXPIRE_SESSION in mailcow.conf                   |     `480`     |             |
 |        `mailcow__install_updates`         | if `yes` the mailcow ansible role will also update an existing installation |     `yes`     |             |
+|        `mailcow__redirect_http_to_https`         | if `yes`, all requests via HTTP will be redirected to HTTPS |     `no`     | also see https://mailcow.github.io/mailcow-dockerized-docs/u_e-80_to_443/ |
 
 ## Usage
 
