@@ -44,6 +44,10 @@
   become: yes
   import_tasks: mailcowconf.yml
 
+- name: Template settings for Nginx
+  become: yes
+  import_tasks: nginx.yml
+
 - name: Copy vars.local.inc.php
   become: yes
   template:
