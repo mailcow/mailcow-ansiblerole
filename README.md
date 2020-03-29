@@ -16,12 +16,13 @@ This role will setup a mailcow dockerized email server.
 | docker-compose | docker-compose is needed               |
 
 ## Notes
-this role will use the `inventory_hostname` as mailcow hostname, this means that you have to use the full qualified domain name as your inventory hostname e.g. `mail.mailcow.tld`.
+this role will use by default the `inventory_hostname` as mailcow hostname, this means that you have to use the full qualified domain name as your inventory hostname e.g. `mail.mailcow.tld` or you set `mailcow__hostname` to the correct FQDN.
 
 ## Variables
 
 |                   name                    |                                   purpose                                   | default value |    note     |
 |:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------:|:-----------:|
+|           `mailcow__hostname `            | sets MAILCOW_HOSTNAME                                                | `inventory_hostname` | needs to be an full qualified domain name |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |   `master`    |             |
 |            `mailcow__timezone`            | used to set the timezone your mailcow runs in during the config generation  |    not set    | must be set |
 |             `mailcow__theme`              |             set the default mailcow theme in vars.local.inc.php             |    `lumen`    |             |
