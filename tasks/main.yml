@@ -31,7 +31,7 @@
 - name: Generate mailcow.conf file
   shell: ./generate_config.sh
   environment:
-    MAILCOW_HOSTNAME: "{{ inventory_hostname }}"
+    MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
     MAILCOW_TZ: "{{ mailcow__timezone }}"
   args:
     executable: /bin/bash
