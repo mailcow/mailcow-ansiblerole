@@ -15,7 +15,7 @@
 - name: Clone mailcow git repo
   become: yes
   git:
-    repo: 'https://github.com/mailcow/mailcow-dockerized.git'
+    repo: '{{ mailcow__git_url }}'
     version: "{{ mailcow__git_version }}"
     umask: '022'
     update: false
