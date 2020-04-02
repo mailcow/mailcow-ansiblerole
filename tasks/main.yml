@@ -1,12 +1,12 @@
 ---
 
-- name: Install requiered apt packages
+- name: Install required apt packages
   become: yes
   apt:
     name: git
     state: present
 
-- name: Install requiered pip packages
+- name: Install required pip packages
   become: yes
   pip:
     name: docker
