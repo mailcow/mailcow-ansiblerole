@@ -57,14 +57,14 @@
 - name: Check if mailcow is running
   become: yes
   docker_container_info:
-    name: mailcowdockerized_nginx-mailcow_1
+    name: "{{ mailcow__docker_compose_project_name }}_nginx-mailcow_1"
   register: mailcow_running
 
 - name: Start mailcow stack
   become: yes
   docker_compose:
     project_src: "{{ mailcow__install_path }}"
-    project_name: mailcowdockerized
+    project_name: "{{ mailcow__docker_compose_project_name }}"
     state: present
     build: no
     pull: yes

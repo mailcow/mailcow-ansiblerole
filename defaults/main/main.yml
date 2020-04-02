@@ -7,6 +7,8 @@ mailcow__git_version: master
 
 mailcow__timezone: Europe/Berlin
 
+mailcow__docker_compose_project_name: mailcowdockerized
+
 # Change theme (default: lumen)
 # Needs to be one of those: cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable, sandstone,
 # simplex, slate, spacelab, superhero, united, yeti
