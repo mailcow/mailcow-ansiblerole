@@ -46,7 +46,7 @@
   replace:
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ADDITIONAL_SAN=.*"
-    replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san }}"
+    replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san | join(',') }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_LETS_ENCRYPT
