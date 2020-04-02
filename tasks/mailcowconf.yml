@@ -11,7 +11,7 @@
   replace:
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTP_BIND=.*"
-    replace: "HTTP_BIND={{ mailcow__config_http_bind }}"
+    replace: "HTTP_BIND={{ mailcow__config_http_bind | ipaddr }}"
   notify: Recreate mailcow
 
 - name: Configure HTTPS_PORT
@@ -25,7 +25,7 @@
   replace:
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^HTTPS_BIND=.*"
-    replace: "HTTPS_BIND={{ mailcow__config_https_bind }}"
+    replace: "HTTPS_BIND={{ mailcow__config_https_bind | ipaddr }}"
   notify: Recreate mailcow
 
 - name: Configure ACL_ANYONE
@@ -46,7 +46,7 @@
   replace:
     path: /opt/mailcow-dockerized/mailcow.conf
     regexp: "^ADDITIONAL_SAN=.*"
-    replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san }}"
+    replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san | join(',') }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_LETS_ENCRYPT

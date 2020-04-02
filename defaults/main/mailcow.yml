@@ -35,7 +35,7 @@ mailcow__config_maildir_gc_time: 1440
 # ...or combine wildcard and static names:
 #ADDITIONAL_SAN=imap.*,srv1.example.com
 #
-mailcow__config_additional_san:
+mailcow__config_additional_san: []
 
 # Skip running ACME (acme-mailcow, Let's Encrypt certs) - y/n
 mailcow__config_skip_lets_encrypt: n
