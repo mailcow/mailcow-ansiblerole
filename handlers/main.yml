@@ -3,7 +3,7 @@
 - name: Restart mailcow
   become: yes
   docker_compose:
-    project_src: /opt/mailcow-dockerized
+    project_src: "{{ mailcow__install_path }}"
     project_name: mailcowdockerized
     restarted: yes
     state: present
@@ -11,7 +11,7 @@
 - name: Recreate mailcow
   become: yes
   docker_compose:
-    project_src: /opt/mailcow-dockerized
+    project_src: "{{ mailcow__install_path }}"
     project_name: mailcowdockerized
     recreate: smart
     state: present

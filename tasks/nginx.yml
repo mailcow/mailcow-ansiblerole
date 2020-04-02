@@ -3,11 +3,11 @@
   become: yes
   template:
     src: redirect.conf.j2
-    dest: /opt/mailcow-dockerized/data/conf/nginx/redirect.conf
+    dest: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
   when: mailcow__redirect_http_to_https
 
 - name: Delete redirect.conf
   file:
-    path: /opt/mailcow-dockerized/data/conf/nginx/redirect.conf
+    path: "{{ mailcow__install_path }}"/data/conf/nginx/redirect.conf"
     state: absent
   when: not mailcow__redirect_http_to_https

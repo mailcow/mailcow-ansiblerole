@@ -2,147 +2,147 @@
 
 - name: Configure HTTP_PORT
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^HTTP_PORT=.*"
     replace: "HTTP_PORT={{ mailcow__config_http_port }}"
   notify: Recreate mailcow
 
 - name: Configure HTTP_BIND
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^HTTP_BIND=.*"
     replace: "HTTP_BIND={{ mailcow__config_http_bind | ipaddr }}"
   notify: Recreate mailcow
 
 - name: Configure HTTPS_PORT
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^HTTPS_PORT=.*"
     replace: "HTTPS_PORT={{ mailcow__config_https_port }}"
   notify: Recreate mailcow
 
 - name: Configure HTTPS_BIND
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^HTTPS_BIND=.*"
     replace: "HTTPS_BIND={{ mailcow__config_https_bind | ipaddr }}"
   notify: Recreate mailcow
 
 - name: Configure ACL_ANYONE
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^ACL_ANYONE=.*"
     replace: "ACL_ANYONE={{ mailcow__config_acl_anyone }}"
   notify: Recreate mailcow
 
 - name: Configure MAILDIR_GC_TIME
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^MAILDIR_GC_TIME=.*"
     replace: "MAILDIR_GC_TIME={{ mailcow__config_maildir_gc_time }}"
   notify: Recreate mailcow
 
 - name: Configure ADDITIONAL_SAN
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^ADDITIONAL_SAN=.*"
     replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san | join(',') }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_LETS_ENCRYPT
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_LETS_ENCRYPT=.*"
     replace: "SKIP_LETS_ENCRYPT={{ mailcow__config_skip_lets_encrypt }}"
   notify: Recreate mailcow
 
 - name: Configure ENABLE_SSL_SNI
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^ENABLE_SSL_SNI=.*"
     replace: "ENABLE_SSL_SNI={{ mailcow__config_enable_ssl_sni }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_IP_CHECK
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_IP_CHECK=.*"
     replace: "SKIP_IP_CHECK={{ mailcow__config_skip_ip_check }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_HTTP_VERIFICATION
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_HTTP_VERIFICATION=.*"
     replace: "SKIP_HTTP_VERIFICATION={{ mailcow__config_skip_http_verification }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_CLAMD
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_CLAMD=.*"
     replace: "SKIP_CLAMD={{ mailcow__config_skip_clamd }}"
   notify: Recreate mailcow
 
 - name: Configure SKIP_SOLR
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_SOLR=.*"
     replace: "SKIP_SOLR={{ mailcow__config_skip_solr }}"
   notify: Recreate mailcow
 
 - name: Configure SOLR_HEAP
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SOLR_HEAP=.*"
     replace: "SOLR_HEAP={{ mailcow__config_solr_heap }}"
   notify: Recreate mailcow
 
 - name: Configure ALLOW_ADMIN_EMAIL_LOGIN
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^ALLOW_ADMIN_EMAIL_LOGIN=.*"
     replace: "ALLOW_ADMIN_EMAIL_LOGIN={{ mailcow__config_allow_admin_email_login }}"
   notify: Recreate mailcow
 
 - name: Configure USE_WATCHDOG
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^USE_WATCHDOG=.*"
     replace: "USE_WATCHDOG={{ mailcow__config_use_watchdog }}"
   notify: Recreate mailcow
 
 - name: Uncomment WATCHDOG_NOTIFY_EMAIL line
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: '^#(WATCHDOG_NOTIFY_EMAIL=)$'
     replace: '\1'
   notify: Recreate mailcow
 
 - name: Configure WATCHDOG_NOTIFY_EMAIL
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^WATCHDOG_NOTIFY_EMAIL=.*"
     replace: "WATCHDOG_NOTIFY_EMAIL={{ mailcow__config_watchdog_notify_email }}"
   notify: Recreate mailcow
 
 - name: Configure WATCHDOG_NOTIFY_BAN
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^WATCHDOG_NOTIFY_BAN=.*"
     replace: "WATCHDOG_NOTIFY_BAN={{ mailcow__config_watchdog_notify_ban }}"
   notify: Recreate mailcow
 
 - name: Configure LOG_LINES
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^LOG_LINES=.*"
     replace: "LOG_LINES={{ mailcow__config_log_lines }}"
   notify: Recreate mailcow
 
 - name: Configure SOGO_EXPIRE_SESSION
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SOGO_EXPIRE_SESSION=.*"
     replace: "SOGO_EXPIRE_SESSION={{ mailcow__config_sogo_expire_session }}"
   notify: Recreate mailcow

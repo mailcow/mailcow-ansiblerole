@@ -15,7 +15,7 @@
 - name: Check if mailcow installation directory exists
   become: yes
   stat:
-    path: /opt/mailcow-dockerized
+    path: "{{ mailcow__install_path }}"
   register: mailcow_installed
 
 - name: Clone mailcow git repo
@@ -25,7 +25,7 @@
     version: "{{ mailcow__git_version }}"
     umask: '022'
     update: false
-    dest: /opt/mailcow-dockerized
+    dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
 
 - name: Generate mailcow.conf file
@@ -35,7 +35,7 @@
     MAILCOW_TZ: "{{ mailcow__timezone }}"
   args:
     executable: /bin/bash
-    chdir: /opt/mailcow-dockerized
+    chdir: "{{ mailcow__install_path }}"
     creates: mailcow.conf
   tags:
     - skip_ansible_lint
@@ -52,7 +52,7 @@
   become: yes
   template:
     src: vars.local.inc.php.j2
-    dest: /opt/mailcow-dockerized/data/web/inc/vars.local.inc.php
+    dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
 
 - name: Check if mailcow is running
   become: yes
@@ -63,7 +63,7 @@
 - name: Start mailcow stack
   become: yes
   docker_compose:
-    project_src: /opt/mailcow-dockerized
+    project_src: "{{ mailcow__install_path }}"
     project_name: mailcowdockerized
     state: present
     build: no
