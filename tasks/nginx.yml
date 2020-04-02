@@ -8,6 +8,6 @@
 
 - name: Delete redirect.conf
   file:
-    path: "{{ mailcow__install_path }}"/data/conf/nginx/redirect.conf"
+    path: "{{ mailcow__install_path }}/data/conf/nginx/redirect.conf"
     state: absent
   when: not mailcow__redirect_http_to_https
