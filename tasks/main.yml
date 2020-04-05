@@ -15,7 +15,7 @@
 - name: Check if mailcow installation directory exists
   become: yes
   stat:
-    path: /opt/mailcow-dockerized
+    path: "{{ mailcow__install_path }}"
   register: mailcow_installed
 
 - name: Clone mailcow git repo
@@ -25,7 +25,7 @@
     version: "{{ mailcow__git_version }}"
     umask: '022'
     update: false
-    dest: /opt/mailcow-dockerized
+    dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
 
 - name: Generate mailcow.conf file
@@ -35,7 +35,7 @@
     MAILCOW_TZ: "{{ mailcow__timezone }}"
   args:
     executable: /bin/bash
-    chdir: /opt/mailcow-dockerized
+    chdir: "{{ mailcow__install_path }}"
     creates: mailcow.conf
   tags:
     - skip_ansible_lint
@@ -52,59 +52,26 @@
   become: yes
   template:
     src: vars.local.inc.php.j2
-    dest: /opt/mailcow-dockerized/data/web/inc/vars.local.inc.php
+    dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
 
 - name: Check if mailcow is running
   become: yes
   docker_container_info:
-    name: mailcowdockerized_nginx-mailcow_1
+    name: "{{ mailcow__docker_compose_project_name }}_nginx-mailcow_1"
   register: mailcow_running
 
 - name: Start mailcow stack
   become: yes
   docker_compose:
-    project_src: /opt/mailcow-dockerized
-    project_name: mailcowdockerized
+    project_src: "{{ mailcow__install_path }}"
+    project_name: "{{ mailcow__docker_compose_project_name }}"
     state: present
     build: no
     pull: yes
   when: not mailcow_running.exists
 
 - name: Update mailcow
+  include_tasks: update.yml
   when:
     - mailcow_running.exists
     - mailcow__install_updates
-  block:
-
-  - name: Copy updater script
-    become: yes
-    template:
-      src: updater.sh.j2
-      dest: /opt/mailcowupdater.sh
-      mode: '0777'
-
-  - name: Create update logs directory
-    become: yes
-    file:
-      dest: /var/log/mailcow-update/
-      state: directory
-
-  - name: Update mailcow
-    become: yes
-    shell: /opt/mailcowupdater.sh
-    args:
-      executable: /bin/bash
-    register: mailcow_update
-    tags:
-      - skip_ansible_lint
-
-  - name: Show mailcow update log
-    debug:
-      var: mailcow_update.stdout_lines
-
-  - name: Write update log to file
-    become: yes
-    copy:
-      content: "{{ mailcow_update.stdout }}"
-      dest: "/var/log/mailcow-update/update-{{ ansible_date_time.iso8601_basic_short }}.log"
-    no_log: True

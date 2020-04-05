@@ -2,7 +2,7 @@
 # Update Mailcow
 # Author: ntimo
 
-cd /opt/mailcow-dockerized
+cd {{ mailcow__install_path }}
 
 echo "Updating updater before runnning update"
 git fetch origin master
