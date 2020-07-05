@@ -133,6 +133,13 @@
     replace: "WATCHDOG_NOTIFY_BAN={{ mailcow__config_watchdog_notify_ban }}"
   notify: Recreate mailcow
 
+- name: Configure WATCHDOG_EXTERNAL_CHECKS
+  replace:
+    path: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "^WATCHDOG_EXTERNAL_CHECKS=.*"
+    replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_externaL_checks }}"
+  notify: Recreate mailcow
+
 - name: Configure LOG_LINES
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"

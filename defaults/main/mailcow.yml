@@ -73,6 +73,13 @@ mailcow__config_watchdog_notify_email:
 # Notify about banned IP (includes whois lookup)
 mailcow__config_watchdog_notify_ban: y
 
+# Checks if mailcow is an open relay. Requires a SAL. More checks will follow.
+# https://www.servercow.de/mailcow?lang=en
+# https://www.servercow.de/mailcow?lang=de
+# No data is collected. Opt-in and anonymous.
+# Will only work with unmodified mailcow setups.
+mailcow__config_watchdog_externaL_checks: n
+
 # Max log lines per service to keep in Redis logs
 mailcow__config_log_lines: 9999
 
