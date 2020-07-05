@@ -146,3 +146,10 @@
     regexp: "^SOGO_EXPIRE_SESSION=.*"
     replace: "SOGO_EXPIRE_SESSION={{ mailcow__config_sogo_expire_session }}"
   notify: Recreate mailcow
+
+- name: Configure COMPOSE_PROJECT_NAME
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^COMPOSE_PROJECT_NAME=.*"
+    replace: "COMPOSE_PROJECT_NAME={{ mailcow__docker_compose_project_name }}"
+  notify: Recreate mailcow
