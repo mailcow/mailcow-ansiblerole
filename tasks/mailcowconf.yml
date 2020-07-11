@@ -135,7 +135,7 @@
 
 - name: Configure WATCHDOG_EXTERNAL_CHECKS
   replace:
-    path: /opt/mailcow-dockerized/mailcow.conf
+    path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^WATCHDOG_EXTERNAL_CHECKS=.*"
     replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_externaL_checks }}"
   notify: Recreate mailcow
