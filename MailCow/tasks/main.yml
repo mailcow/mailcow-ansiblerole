@@ -1,0 +1,109 @@
+---
+- name: inventory name to hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Set umask
+  shell: umask 022
+
+- name: Check if mailcow installation directory exists
+  stat:
+    path: "{{ mailcow__install_path }}"
+  register: mailcow_installed 
+
+- name: Check if mailcow config exists
+  stat:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+  register: mailcow_config_created 
+
+- name: Downloading Mailcow Git Repository
+  become: true
+  git:
+    repo: 'https://github.com/mailcow/mailcow-dockerized.git'
+    version: "{{ mailcow__git_version }}"
+    umask: '022'
+    update: false
+    dest: "{{ mailcow__install_path }}"
+  when: not mailcow_installed.stat.exists
+
+- name: Install required PIP components
+  pip:
+    name: netaddr
+    executable: pip3
+
+- name: Install required APT components
+  apt:
+    name: python3-netaddr
+    state: present
+
+- name: Check if mailcow config exists
+  stat:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+  register: mailcow_config_created 
+
+- name: Hostname debug
+  debug:
+    var: inventory_hostname
+
+- name: Generate Mailcow.conf - Allow ClamAV
+  become: true
+  expect:
+    command: "./generate_config.sh"
+    creates: "mailcow.conf"
+    chdir: "{{ mailcow__install_path }}"
+    echo: true
+    responses:
+      '(?m)^Press enter to confirm the detected value': ""
+      '(?m)^Mail server hostname': "{{ mailcow__hostname | quote }}"
+      '(?m)^Timezone': "{{ mailcow__timezone | quote }}"
+      '(?m)^Installed memory is <= 2.5 GiB.': "y"
+  when: 
+    - not mailcow_config_created.stat.exists
+    - ansible_memtotal_mb >= 2685
+
+- name: Generate Mailcow.conf - Deny ClamAV
+  become: true
+  expect:
+    echo: true
+    command: "./generate_config.sh"
+    chdir: "{{ mailcow__install_path }}"
+    creates: "mailcow.conf"
+    responses:
+      '(?m)^Press enter to confirm the detected value': ""
+      '(?m)^Mail server hostname': "{{ mailcow__hostname | quote }}"
+      '(?m)^Timezone': "{{ mailcow__timezone | quote }}"
+      '(?m)^Installed memory is <= 2.5 GiB.': "n"
+  when: 
+    - not mailcow_config_created.stat.exists
+    - ansible_memtotal_mb <= 2685
+
+- name: Template settings for mailcow.conf
+  import_tasks: mailcowconf.yml
+
+- name: Template settings for Nginx
+  import_tasks: nginx.yml
+
+- name: Copy vars.local.inc.php
+  template:
+    src: vars.local.inc.php.j2
+    dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
+
+- name: Check if mailcow is running
+  docker_container_info:
+    name: "{{ mailcow__docker_compose_project_name }}_nginx-mailcow_1"
+  register: mailcow_running
+
+- name: Start Mailcow
+  docker_compose:
+    project_name: "{{ mailcow__docker_compose_project_name }}"
+    project_src: "{{ mailcow__install_path }}"
+    state: present
+    build: no
+    pull: yes
+  when: not mailcow_running.exists
+
+- name: Update mailcow
+  include_tasks: update.yml
+  when:
+    - mailcow_running.exists
+    - mailcow__install_updates

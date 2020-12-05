@@ -1,17 +1,19 @@
-# mailcow: dockerized - Ansible playbook 🐮 + 🐋 = 💕
+# mailcow: dockerized - Ansible role 🐮 + 🐋 = 💕
 
 [![Build Status](https://drone.mailcow.email/api/badges/mailcow/mailcow-ansiblerole/status.svg)](https://drone.mailcow.email/mailcow/mailcow-ansiblerole)
 
-This playbook will setup a mailcow dockerized email server.
+This role will setup a mailcow dockerized email server.
 
 ## Prerequisites
 
 - Up and running Ubuntu/Debian host (other distributions not supported/tested for now)
+- If using something other than the included
+
 
 ## Notes
-This playbook will use by default the `inventory_hostname` as mailcow hostname, this means that you have to use the full qualified domain name as your inventory hostname e.g. `mail.mailcow.tld` or you set `mailcow__hostname` to the correct FQDN.
+This role will use by default the `inventory_hostname` as mailcow hostname, this means that you have to use the full qualified domain name as your inventory hostname e.g. `mail.mailcow.tld` or you set `mailcow__hostname` to the correct FQDN. 
 
-This repo is designed to be a single point of call to cover everything required, if you use a different Ansible role to handle Docker, it will require extra work to adapt to this repro.
+It is possible to change this, visit `Mailcow/defaults/main/main.yml` and change the value of "mailcow__hostname", it must stil be a valid FQDN or the playbook will fail.
 
 ## Variables
 <!-- Markdown table can be edited with https://www.tablesgenerator.com/markdown_tables -->
@@ -48,7 +50,7 @@ This repo is designed to be a single point of call to cover everything required,
 
 ## Usage
 
-Minimal playbook:
+Playbook:
 
 ```yaml
 ---

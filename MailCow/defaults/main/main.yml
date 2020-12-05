@@ -1,11 +1,11 @@
 ---
 
-mailcow__hostname: "{{ inventory_hostname }}"
+mailcow__hostname: "{{ inventory_hostname | quote }}"
 
 mailcow__install_path: "/opt/mailcow-dockerized"
 mailcow__git_version: master
 
-mailcow__timezone: Europe/Berlin
+mailcow__timezone: "Etc/UTC"
 
 mailcow__docker_compose_project_name: mailcowdockerized
 

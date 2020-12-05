@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - DockerForMailCow
+    - role: MailCow
+      vars:
+        mailcow__timezone: "America/New_York"
