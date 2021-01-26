@@ -1,5 +1,26 @@
 ---
 
+- name: Configure MAILCOW_PASS_SCHEME
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^MAILCOW_PASS_SCHEME=.*"
+    replace: "MAILCOW_PASS_SCHEME={{ mailcow__config_mailcow_pass_scheme }}"
+  notify: Recreate mailcow
+
+- name: Configure DBNAME
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^DBNAME=.*"
+    replace: "DBNAME={{ mailcow__config_dbname }}"
+  notify: Recreate mailcow
+
+- name: Configure DBUSER
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^DBUSER=.*"
+    replace: "DBUSER={{ mailcow__config_dbuser }}"
+  notify: Recreate mailcow
+
 - name: Configure HTTP_PORT
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
@@ -13,6 +34,7 @@
     regexp: "^HTTP_BIND=.*"
     replace: "HTTP_BIND={{ mailcow__config_http_bind | ipaddr }}"
   notify: Recreate mailcow
+  when: mailcow__config_http_bind | default(False)
 
 - name: Configure HTTPS_PORT
   replace:
@@ -26,6 +48,98 @@
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^HTTPS_BIND=.*"
     replace: "HTTPS_BIND={{ mailcow__config_https_bind | ipaddr }}"
+  notify: Recreate mailcow
+  when: mailcow__config_https_bind | default(False)
+
+- name: Configure SMTP_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SMTP_PORT=.*"
+    replace: "SMTP_PORT={{ mailcow__config_smtp_port }}"
+  notify: Recreate mailcow
+
+- name: Configure SMTPS_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SMTPS_PORT=.*"
+    replace: "SMTPS_PORT={{ mailcow__config_smtps_port }}"
+  notify: Recreate mailcow
+
+- name: Configure SUBMISSION_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SUBMISSION_PORT=.*"
+    replace: "SUBMISSION_PORT={{ mailcow__config_submission_port }}"
+  notify: Recreate mailcow
+
+- name: Configure IMAP_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^IMAP_PORT=.*"
+    replace: "IMAP_PORT={{ mailcow__config_imap_port }}"
+  notify: Recreate mailcow
+
+- name: Configure IMAPS_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^IMAPS_PORT=.*"
+    replace: "IMAPS_PORT={{ mailcow__config_imaps_port }}"
+  notify: Recreate mailcow
+
+- name: Configure POP_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^POP_PORT=.*"
+    replace: "POP_PORT={{ mailcow__config_pop_port }}"
+  notify: Recreate mailcow
+
+- name: Configure POPS_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^POPS_PORT=.*"
+    replace: "POPS_PORT={{ mailcow__config_pops_port }}"
+  notify: Recreate mailcow
+
+- name: Configure SIEVE_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SIEVE_PORT=.*"
+    replace: "SIEVE_PORT={{ mailcow__config_sieve_port }}"
+  notify: Recreate mailcow
+
+- name: Configure DOVEADM_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^DOVEADM_PORT=.*"
+    replace: "DOVEADM_PORT={{ mailcow__config_doveadm_port }}"
+  notify: Recreate mailcow
+
+- name: Configure SQL_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SQL_PORT=.*"
+    replace: "SQL_PORT={{ mailcow__config_sql_port }}"
+  notify: Recreate mailcow
+
+- name: Configure SOLR_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SOLR_PORT=.*"
+    replace: "SOLR_PORT={{ mailcow__config_solr_port }}"
+  notify: Recreate mailcow
+
+- name: Configure REDIS_PORT
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^REDIS_PORT=.*"
+    replace: "REDIS_PORT={{ mailcow__config_redis_port }}"
+  notify: Recreate mailcow
+
+- name: Configure COMPOSE_PROJECT_NAME
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^COMPOSE_PROJECT_NAME=.*"
+    replace: "COMPOSE_PROJECT_NAME={{ mailcow__docker_compose_project_name }}"
   notify: Recreate mailcow
 
 - name: Configure ACL_ANYONE
@@ -84,6 +198,13 @@
     replace: "SKIP_CLAMD={{ mailcow__config_skip_clamd }}"
   notify: Recreate mailcow
 
+- name: Configure SKIP_SOGO
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SKIP_SOGO=.*"
+    replace: "SKIP_SOGO={{ mailcow__config_skip_sogo }}"
+  notify: Recreate mailcow
+
 - name: Configure SKIP_SOLR
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
@@ -118,6 +239,7 @@
     regexp: '^#(WATCHDOG_NOTIFY_EMAIL=)$'
     replace: '\1'
   notify: Recreate mailcow
+  when: mailcow__config_watchdog_notify_email | default(False)
 
 - name: Configure WATCHDOG_NOTIFY_EMAIL
   replace:
@@ -147,6 +269,62 @@
     replace: "LOG_LINES={{ mailcow__config_log_lines }}"
   notify: Recreate mailcow
 
+- name: Configure IPV4_NETWORK
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^IPV4_NETWORK=.*"
+    replace: "IPV4_NETWORK={{ mailcow__config_ipv4_network }}"
+  notify: Recreate mailcow
+
+- name: Configure IPV6_NETWORK
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^IPV6_NETWORK=.*"
+    replace: "IPV6_NETWORK={{ mailcow__config_ipv6_network }}"
+  notify: Recreate mailcow
+
+- name: Configure SNAT_TO_SOURCE
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SNAT_TO_SOURCE=.*"
+    replace: "SNAT_TO_SOURCE={{ mailcow__config_snat_to_source }}"
+  notify: Recreate mailcow
+
+- name: Configure SNAT6_TO_SOURCE
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^SNAT6_TO_SOURCE=.*"
+    replace: "SNAT6_TO_SOURCE={{ mailcow__config_snat6_to_source }}"
+  notify: Recreate mailcow
+
+- name: Configure API_KEY
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^API_KEY=.*"
+    replace: "API_KEY={{ mailcow__config_api_key }}"
+  notify: Recreate mailcow
+
+- name: Configure API_KEY_READ_ONLY
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^API_KEY_READ_ONLY=.*"
+    replace: "API_KEY_READ_ONLY={{ mailcow__config_api_key_read_only }}"
+  notify: Recreate mailcow
+
+- name: Configure API_ALLOW_FROM
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^API_ALLOW_FROM=.*"
+    replace: "API_ALLOW_FROM={{ mailcow__config_api_allow_from }}"
+  notify: Recreate mailcow
+
+- name: Configure MAILDIR_SUB
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^MAILDIR_SUB=.*"
+    replace: "MAILDIR_SUB={{ mailcow__config_maildir_sub }}"
+  notify: Recreate mailcow
+
 - name: Configure SOGO_EXPIRE_SESSION
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
@@ -154,9 +332,16 @@
     replace: "SOGO_EXPIRE_SESSION={{ mailcow__config_sogo_expire_session }}"
   notify: Recreate mailcow
 
-- name: Configure COMPOSE_PROJECT_NAME
+- name: Configure DOVECOT_MASTER_USER
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^COMPOSE_PROJECT_NAME=.*"
-    replace: "COMPOSE_PROJECT_NAME={{ mailcow__docker_compose_project_name }}"
+    regexp: "^DOVECOT_MASTER_USER=.*"
+    replace: "DOVECOT_MASTER_USER={{ mailcow__config_dovecot_master_user }}"
+  notify: Recreate mailcow
+
+- name: Configure DOVECOT_MASTER_PASS
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^DOVECOT_MASTER_PASS=.*"
+    replace: "DOVECOT_MASTER_PASS={{ mailcow__config_dovecot_master_pass }}"
   notify: Recreate mailcow

@@ -4,11 +4,52 @@
 # Mailcow.conf
 # -------------
 
-mailcow__config_http_port: 80
-mailcow__config_http_bind: 0.0.0.0
-mailcow__config_https_port: 443
-mailcow__config_https_bind: 0.0.0.0
+# Password hash algorithm
+# Only certain password hash algorithm are supported. For a fully list of supported schemes,
+# see https://mailcow.github.io/mailcow-dockerized-docs/model-passwd/
+mailcow__config_mailcow_pass_scheme: BLF-CRYPT
 
+# ------------------------------
+# SQL database configuration
+# ------------------------------
+
+mailcow__config_dbname: mailcow
+mailcow__config_dbuser: mailcow
+
+# ------------------------------
+# HTTP/S Bindings
+# ------------------------------
+
+# You should use HTTPS, but in case of SSL offloaded reverse proxies:
+# Might be important: This will also change the binding within the container.
+# If you use a proxy within Docker, point it to the ports you set below.
+# Do _not_ use IP:PORT in HTTP(S)_BIND or HTTP(S)_PORT
+# IMPORTANT: Do not use port 8081, 9081 or 65510!
+
+mailcow__config_http_port: 80
+mailcow__config_http_bind:
+
+mailcow__config_https_port: 443
+mailcow__config_https_bind:
+
+# ------------------------------
+# Other bindings
+# ------------------------------
+# You should leave that alone
+# Format: 11.22.33.44:25 or 0.0.0.0:465 etc.
+
+mailcow__config_smtp_port: 25
+mailcow__config_smtps_port: 465
+mailcow__config_submission_port: 587
+mailcow__config_imap_port: 143
+mailcow__config_imaps_port: 993
+mailcow__config_pop_port: 110
+mailcow__config_pops_port: 995
+mailcow__config_sieve_port: 4190
+mailcow__config_doveadm_port: 127.0.0.1:19991
+mailcow__config_sql_port: 127.0.0.1:13306
+mailcow__config_solr_port: 127.0.0.1:18983
+mailcow__config_redis_port: 127.0.0.1:7654
 
 # Set this to "allow" to enable the anyone pseudo user. Disabled by default.
 # When enabled, ACL can be created, that apply to "All authenticated users"
@@ -20,7 +61,8 @@ mailcow__config_acl_anyone: disallow
 # Deleted domains and mailboxes are moved to /var/vmail/_garbage/timestamp_sanitizedstring
 # How long should objects remain in the garbage until they are being deleted? (value in minutes)
 # Check interval is hourly
-mailcow__config_maildir_gc_time: 1440
+
+mailcow__config_maildir_gc_time: 7200
 
 # Additional SAN for the certificate
 #
@@ -35,6 +77,7 @@ mailcow__config_maildir_gc_time: 1440
 # ...or combine wildcard and static names:
 #ADDITIONAL_SAN=imap.*,srv1.example.com
 #
+
 mailcow__config_additional_san: []
 
 # Skip running ACME (acme-mailcow, Let's Encrypt certs) - y/n
@@ -54,6 +97,10 @@ mailcow__config_skip_http_verification: n
 # Skip ClamAV (clamd-mailcow) anti-virus (Rspamd will auto-detect a missing ClamAV container) - y/n
 mailcow__config_skip_clamd: n
 
+# Skip SOGo: Will disable SOGo integration and therefore webmail, DAV protocols and ActiveSync support (experimental, unsupported, not fully implemented) - y/n
+
+mailcow__config_skip_sogo: n
+
 # Skip Solr on low-memory systems or if you do not want to store a readable index of your mails in solr-vol-1.
 mailcow__config_skip_solr: n
 
@@ -64,14 +111,21 @@ mailcow__config_solr_heap: 1024
 # Allow admins to log into SOGo as email user (without any password)
 mailcow__config_allow_admin_email_login: n
 
-# Enable watchdog (watchdog-mailcow) to restart unhealthy containers (experimental)
-mailcow__config_use_watchdog: n
-# Send notifications by mail (no DKIM signature, sent from watchdog@MAILCOW_HOSTNAME)
-# Can by multiple rcpts, NO quotation marks
+# Enable watchdog (watchdog-mailcow) to restart unhealthy containers
+mailcow__config_use_watchdog: y
+
+# Send watchdog notifications by mail (sent from watchdog@MAILCOW_HOSTNAME)
+# CAUTION:
+# 1. You should use external recipients
+# 2. Mails are sent unsigned (no DKIM)
+# 3. If you use DMARC, create a separate DMARC policy ("v=DMARC1; p=none;" in _dmarc.MAILCOW_HOSTNAME)
+# Multiple rcpts allowed, NO quotation marks, NO spaces
+
 #WATCHDOG_NOTIFY_EMAIL=a@example.com,b@example.com,c@example.com
 mailcow__config_watchdog_notify_email:
+
 # Notify about banned IP (includes whois lookup)
-mailcow__config_watchdog_notify_ban: y
+mailcow__config_watchdog_notify_ban: n
 
 # Checks if mailcow is an open relay. Requires a SAL. More checks will follow.
 # https://www.servercow.de/mailcow?lang=en
@@ -83,5 +137,45 @@ mailcow__config_watchdog_externaL_checks: n
 # Max log lines per service to keep in Redis logs
 mailcow__config_log_lines: 9999
 
+# Internal IPv4 /24 subnet, format n.n.n (expands to n.n.n.0/24)
+# Use private IPv4 addresses only, see https://en.wikipedia.org/wiki/Private_network#Private_IPv4_addresses
+
+mailcow__config_ipv4_network: 172.22.1
+
+# Internal IPv6 subnet in fc00::/7
+# Use private IPv6 addresses only, see https://en.wikipedia.org/wiki/Private_network#Private_IPv6_addresses
+
+mailcow__config_ipv6_network: fd4d:6169:6c63:6f77::/64
+
+# Use this IPv4 for outgoing connections (SNAT)
+
+mailcow__config_snat_to_source: 
+
+# Use this IPv6 for outgoing connections (SNAT)
+
+mailcow__config_snat6_to_source: 
+
+# Create or override an API key for the web UI
+# You _must_ define API_ALLOW_FROM, which is a comma separated list of IPs
+# An API key defined as API_KEY has read-write access
+# An API key defined as API_KEY_READ_ONLY has read-only access
+# Allowed chars for API_KEY and API_KEY_READ_ONLY: a-z, A-Z, 0-9, -
+# You can define API_KEY and/or API_KEY_READ_ONLY
+
+mailcow__config_api_key: 
+mailcow__config_api_key_read_only: 
+mailcow__config_api_allow_from: 172.22.1.1,127.0.0.1
+
+# mail_home is ~/Maildir
+mailcow__config_maildir_sub: Maildir
+
 # SOGo session timeout in minutes
 mailcow__config_sogo_expire_session: 480
+
+# DOVECOT_MASTER_USER and DOVECOT_MASTER_PASS must both be provided. No special chars.
+# Empty by default to auto-generate master user and password on start.
+# User expands to DOVECOT_MASTER_USER@mailcow.local
+# LEAVE EMPTY IF UNSURE
+mailcow__config_dovecot_master_user: 
+# LEAVE EMPTY IF UNSURE
+mailcow__config_dovecot_master_pass: 

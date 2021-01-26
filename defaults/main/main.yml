@@ -4,8 +4,9 @@ mailcow__hostname: "{{ inventory_hostname }}"
 
 mailcow__install_path: "/opt/mailcow-dockerized"
 mailcow__git_version: master
+mailcow__backup_path: "/opt/backup"
 
-mailcow__timezone: Europe/Berlin
+mailcow__timezone: UTC
 
 mailcow__docker_compose_project_name: mailcowdockerized
 
@@ -17,5 +18,8 @@ mailcow__docker_compose_project_name: mailcowdockerized
 mailcow__theme: lumen
 
 mailcow__install_updates: yes
+mailcow__install_config: yes
 
 mailcow__redirect_http_to_https: no
+
+mailcow__start: true
