@@ -61,6 +61,9 @@ mailcow__config_skip_solr: n
 # Solr is a prone to run OOM and should be monitored. Unmonitored Solr setups are not recommended.
 mailcow__config_solr_heap: 1024
 
+# Skip SOGo: Will disable SOGo integration and therefore webmail, DAV protocols and ActiveSync support (experimental, unsupported, not fully implemented) - y/n
+mailcow__config_skip_sogo: n
+
 # Allow admins to log into SOGo as email user (without any password)
 mailcow__config_allow_admin_email_login: n
 
