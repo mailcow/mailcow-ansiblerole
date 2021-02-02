@@ -98,7 +98,7 @@
     replace: "SOLR_HEAP={{ mailcow__config_solr_heap }}"
   notify: Recreate mailcow
 
-- name: Configure SKIP_SOLR
+- name: Configure SKIP_SOGO
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^SKIP_SOGO=.*"
