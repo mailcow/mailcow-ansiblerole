@@ -144,7 +144,7 @@
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^WATCHDOG_EXTERNAL_CHECKS=.*"
-    replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_externaL_checks }}"
+    replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_external_checks }}"
   notify: Recreate mailcow
 
 - name: Configure LOG_LINES

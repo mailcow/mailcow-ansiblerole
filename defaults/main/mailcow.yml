@@ -81,7 +81,7 @@ mailcow__config_watchdog_notify_ban: y
 # https://www.servercow.de/mailcow?lang=de
 # No data is collected. Opt-in and anonymous.
 # Will only work with unmodified mailcow setups.
-mailcow__config_watchdog_externaL_checks: n
+mailcow__config_watchdog_external_checks: n
 
 # Max log lines per service to keep in Redis logs
 mailcow__config_log_lines: 9999
