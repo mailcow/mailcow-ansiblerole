@@ -9,6 +9,7 @@ galaxy_info:
       versions:
         - xenial
         - bionic
+        - focal
   galaxy_tags:
     - mailcow
     - mailserver
@@ -16,4 +17,3 @@ galaxy_info:
   dependencies:
    - role: docker-ce
    - role: docker-compose
-   - 
