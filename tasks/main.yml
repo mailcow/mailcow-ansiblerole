@@ -6,10 +6,10 @@
     name: git
     state: present
 
-- name: Install required pip packages
+- name: Install requiered pip packages
   become: yes
   pip:
-    name: docker
+    name: ['docker','docker-compose']
     state: present
 
 - name: Check if mailcow installation directory exists
@@ -54,15 +54,15 @@
     src: vars.local.inc.php.j2
     dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
 
-- name: Check if mailcow is running
+- name: Check if mailcow containers are running
   become: yes
-  docker_container_info:
+  community.docker.docker_container_info:
     name: "{{ mailcow__docker_compose_project_name }}_nginx-mailcow_1"
   register: mailcow_running
 
-- name: Start mailcow stack
+- name: Start mailcow container stack
   become: yes
-  docker_compose:
+  community.docker.docker_compose:
     project_src: "{{ mailcow__install_path }}"
     project_name: "{{ mailcow__docker_compose_project_name }}"
     state: present
