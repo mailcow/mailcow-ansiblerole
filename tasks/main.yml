@@ -28,6 +28,12 @@
     dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
 
+- name: Hack for issue 11
+  replace:
+    path: "{{ mailcow__install_path }}/generate_config.sh"
+    regexp: '-le "2621440" '
+    replace: '-le "21440" '
+
 - name: Generate mailcow.conf file
   shell: ./generate_config.sh
   environment:

@@ -167,3 +167,12 @@
     regexp: "^COMPOSE_PROJECT_NAME=.*"
     replace: "COMPOSE_PROJECT_NAME={{ mailcow__docker_compose_project_name }}"
   notify: Recreate mailcow
+
+- name: Configure COMPOSE_IP_RANGE
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^IPV4_NETWORK=.*"
+    replace: "IPV4_NETWORK={{ mailcow__docker_compose_ip_range }}"
+
+    
+  notify: Recreate mailcow
