@@ -6,12 +6,6 @@
     name: git
     state: present
 
-- name: Install requiered pip packages
-  become: yes
-  pip:
-    name: ['docker','docker-compose']
-    state: present
-
 - name: Check if mailcow installation directory exists
   become: yes
   stat:
@@ -62,12 +56,10 @@
 
 - name: Start mailcow container stack
   become: yes
-  community.docker.docker_compose:
-    project_src: "{{ mailcow__install_path }}"
-    project_name: "{{ mailcow__docker_compose_project_name }}"
-    state: present
-    build: no
-    pull: yes
+  shell: |
+    docker-compose --project-name {{ mailcow__docker_compose_project_name }} up -d
+  args:
+    chdir: "{{ mailcow__install_path }}"
   when: not mailcow_running.exists
 
 - name: Update mailcow

@@ -1,4 +1,5 @@
 ---
+
 - name: Copy redirect.conf
   become: yes
   template:

@@ -2,16 +2,15 @@
 
 - name: Restart mailcow
   become: yes
-  docker_compose:
-    project_src: "{{ mailcow__install_path }}"
-    project_name: "{{ mailcow__docker_compose_project_name }}"
-    restarted: yes
-    state: present
+  shell: |
+    docker-compose --project-name {{ mailcow__docker_compose_project_name }} restart
+  args:
+    chdir: "{{ mailcow__install_path }}"
 
 - name: Recreate mailcow
   become: yes
-  docker_compose:
-    project_src: "{{ mailcow__install_path }}"
-    project_name: "{{ mailcow__docker_compose_project_name }}"
-    recreate: smart
-    state: present
+  shell: |
+    docker-compose --project-name {{ mailcow__docker_compose_project_name }} down
+    docker-compose --project-name {{ mailcow__docker_compose_project_name }} up -d
+  args:
+    chdir: "{{ mailcow__install_path }}"
