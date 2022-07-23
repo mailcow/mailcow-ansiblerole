@@ -1,169 +1,64 @@
 ---
 
-- name: Configure HTTP_PORT
+- name: "Uncomment mailcow.conf lines"
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^HTTP_PORT=.*"
-    replace: "HTTP_PORT={{ mailcow__config_http_port }}"
-  notify: Recreate mailcow
-
-- name: Configure HTTP_BIND
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^HTTP_BIND=.*"
-    replace: "HTTP_BIND={{ (mailcow__config_http_bind | ansible.utils.ipaddr) if mailcow__config_http_bind is not none else '' }}"
-  notify: Recreate mailcow
-
-- name: Configure HTTPS_PORT
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^HTTPS_PORT=.*"
-    replace: "HTTPS_PORT={{ mailcow__config_https_port }}"
-  notify: Recreate mailcow
-
-- name: Configure HTTPS_BIND
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^HTTPS_BIND=.*"
-    replace: "HTTPS_BIND={{ (mailcow__config_https_bind | ansible.utils.ipaddr) if mailcow__config_https_bind is not none else '' }}"
-  notify: Recreate mailcow
-
-- name: Configure ACL_ANYONE
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^ACL_ANYONE=.*"
-    replace: "ACL_ANYONE={{ mailcow__config_acl_anyone }}"
-  notify: Recreate mailcow
-
-- name: Configure MAILDIR_GC_TIME
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^MAILDIR_GC_TIME=.*"
-    replace: "MAILDIR_GC_TIME={{ mailcow__config_maildir_gc_time }}"
-  notify: Recreate mailcow
-
-- name: Configure ADDITIONAL_SAN
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^ADDITIONAL_SAN=.*"
-    replace: "ADDITIONAL_SAN={{ mailcow__config_additional_san | join(',') }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_LETS_ENCRYPT
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_LETS_ENCRYPT=.*"
-    replace: "SKIP_LETS_ENCRYPT={{ mailcow__config_skip_lets_encrypt }}"
-  notify: Recreate mailcow
-
-- name: Configure ENABLE_SSL_SNI
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^ENABLE_SSL_SNI=.*"
-    replace: "ENABLE_SSL_SNI={{ mailcow__config_enable_ssl_sni }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_IP_CHECK
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_IP_CHECK=.*"
-    replace: "SKIP_IP_CHECK={{ mailcow__config_skip_ip_check }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_HTTP_VERIFICATION
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_HTTP_VERIFICATION=.*"
-    replace: "SKIP_HTTP_VERIFICATION={{ mailcow__config_skip_http_verification }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_CLAMD
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_CLAMD=.*"
-    replace: "SKIP_CLAMD={{ mailcow__config_skip_clamd }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_SOLR
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_SOLR=.*"
-    replace: "SKIP_SOLR={{ mailcow__config_skip_solr }}"
-  notify: Recreate mailcow
-
-- name: Configure SOLR_HEAP
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SOLR_HEAP=.*"
-    replace: "SOLR_HEAP={{ mailcow__config_solr_heap }}"
-  notify: Recreate mailcow
-
-- name: Configure SKIP_SOGO
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SKIP_SOGO=.*"
-    replace: "SKIP_SOGO={{ mailcow__config_skip_sogo }}"
-  notify: Recreate mailcow
-
-- name: Configure ALLOW_ADMIN_EMAIL_LOGIN
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^ALLOW_ADMIN_EMAIL_LOGIN=.*"
-    replace: "ALLOW_ADMIN_EMAIL_LOGIN={{ mailcow__config_allow_admin_email_login }}"
-  notify: Recreate mailcow
-
-- name: Configure USE_WATCHDOG
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^USE_WATCHDOG=.*"
-    replace: "USE_WATCHDOG={{ mailcow__config_use_watchdog }}"
-  notify: Recreate mailcow
-
-- name: Uncomment WATCHDOG_NOTIFY_EMAIL line
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: '^#(WATCHDOG_NOTIFY_EMAIL=)$'
+    regexp: "^#({{ item }}=)$"
     replace: '\1'
   notify: Recreate mailcow
+  loop:
+    - WATCHDOG_NOTIFY_EMAIL
 
-- name: Configure WATCHDOG_NOTIFY_EMAIL
+- name: "Configure mailcow.conf"
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^WATCHDOG_NOTIFY_EMAIL=.*"
-    replace: "WATCHDOG_NOTIFY_EMAIL={{ mailcow__config_watchdog_notify_email }}"
+    regexp: "^{{ item.variable }}=.*"
+    replace: "{{ item.variable }}={{ item.value }}"
   notify: Recreate mailcow
-
-- name: Configure WATCHDOG_NOTIFY_BAN
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^WATCHDOG_NOTIFY_BAN=.*"
-    replace: "WATCHDOG_NOTIFY_BAN={{ mailcow__config_watchdog_notify_ban }}"
-  notify: Recreate mailcow
-
-- name: Configure WATCHDOG_EXTERNAL_CHECKS
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^WATCHDOG_EXTERNAL_CHECKS=.*"
-    replace: "WATCHDOG_EXTERNAL_CHECKS={{ mailcow__config_watchdog_external_checks }}"
-  notify: Recreate mailcow
-
-- name: Configure LOG_LINES
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^LOG_LINES=.*"
-    replace: "LOG_LINES={{ mailcow__config_log_lines }}"
-  notify: Recreate mailcow
-
-- name: Configure SOGO_EXPIRE_SESSION
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^SOGO_EXPIRE_SESSION=.*"
-    replace: "SOGO_EXPIRE_SESSION={{ mailcow__config_sogo_expire_session }}"
-  notify: Recreate mailcow
-
-- name: Configure COMPOSE_PROJECT_NAME
-  replace:
-    path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^COMPOSE_PROJECT_NAME=.*"
-    replace: "COMPOSE_PROJECT_NAME={{ mailcow__docker_compose_project_name }}"
-  notify: Recreate mailcow
+  loop:
+    - variable: HTTP_PORT
+      value: "{{ mailcow__config_http_port }}"
+    - variable: HTTP_BIND
+      value: "{{ (mailcow__config_http_bind | ansible.utils.ipaddr) if mailcow__config_http_bind is not none else '' }}"
+    - variable: HTTPS_PORT
+      value: "{{ mailcow__config_https_port }}"
+    - variable: HTTPS_BIND
+      value: "{{ (mailcow__config_https_bind | ansible.utils.ipaddr) if mailcow__config_https_bind is not none else '' }}"
+    - variable: ACL_ANYONE
+      value: "{{ mailcow__config_acl_anyone }}"
+    - variable: MAILDIR_GC_TIME
+      value: "{{ mailcow__config_maildir_gc_time }}"
+    - variable: ADDITIONAL_SAN
+      value: "{{ mailcow__config_additional_san | join(',') }}"
+    - variable: SKIP_LETS_ENCRYPT
+      value: "{{ mailcow__config_skip_lets_encrypt }}"
+    - variable: ENABLE_SSL_SNI
+      value: "{{ mailcow__config_enable_ssl_sni }}"
+    - variable: SKIP_IP_CHECK
+      value: "{{ mailcow__config_skip_ip_check }}"
+    - variable: SKIP_HTTP_VERIFICATION
+      value: "{{ mailcow__config_skip_http_verification }}"
+    - variable: SKIP_CLAMD
+      value: "{{ mailcow__config_skip_clamd }}"
+    - variable: SKIP_SOLR
+      value: "{{ mailcow__config_skip_solr }}"
+    - variable: SOLR_HEAP
+      value: "{{ mailcow__config_solr_heap }}"
+    - variable: SKIP_SOGO
+      value: "{{ mailcow__config_skip_sogo }}"
+    - variable: ALLOW_ADMIN_EMAIL_LOGIN
+      value: "{{ mailcow__config_allow_admin_email_login }}"
+    - variable: USE_WATCHDOG
+      value: "{{ mailcow__config_use_watchdog }}"
+    - variable: WATCHDOG_NOTIFY_EMAIL
+      value: "{{ mailcow__config_watchdog_notify_email }}"
+    - variable: WATCHDOG_NOTIFY_BAN
+      value: "{{ mailcow__config_watchdog_notify_ban }}"
+    - variable: WATCHDOG_EXTERNAL_CHECKS
+      value: "{{ mailcow__config_watchdog_external_checks }}"
+    - variable: LOG_LINES
+      value: "{{ mailcow__config_log_lines }}"
+    - variable: SOGO_EXPIRE_SESSION
+      value: "{{ mailcow__config_sogo_expire_session }}"
+    - variable: COMPOSE_PROJECT_NAME
+      value: "{{ mailcow__docker_compose_project_name }}"
