@@ -5,9 +5,9 @@
 # -------------
 
 mailcow__config_http_port: 80
-mailcow__config_http_bind: 0.0.0.0
+mailcow__config_http_bind:
 mailcow__config_https_port: 443
-mailcow__config_https_bind: 0.0.0.0
+mailcow__config_https_bind:
 
 
 # Set this to "allow" to enable the anyone pseudo user. Disabled by default.
