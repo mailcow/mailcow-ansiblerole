@@ -50,6 +50,7 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |        `mailcow__install_updates`         | if `yes` the mailcow ansible role will also update an existing installation |           `yes`           |                                                                           |
 |     `mailcow__redirect_http_to_https`     |         if `yes`, all requests via HTTP will be redirected to HTTPS         |           `no`            | also see https://mailcow.github.io/mailcow-dockerized-docs/u_e-80_to_443/ |
 |      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                           |                                                                           |
+|      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |       `clamd:3310`        |                                                                           |
 
 ## Usage
 

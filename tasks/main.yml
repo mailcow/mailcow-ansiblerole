@@ -36,11 +36,12 @@
     - skip_ansible_lint
 
 - name: Template settings for mailcow.conf
-  become: yes
   import_tasks: mailcowconf.yml
 
+- name: Configure Rspamd
+  import_tasks: rspamd.yml
+
 - name: Template settings for Nginx
-  become: yes
   import_tasks: nginx.yml
 
 - name: Copy vars.local.inc.php
