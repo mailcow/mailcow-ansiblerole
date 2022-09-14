@@ -40,6 +40,13 @@ mailcow__config_additional_san: []
 # Skip running ACME (acme-mailcow, Let's Encrypt certs) - y/n
 mailcow__config_skip_lets_encrypt: n
 
+# Let's Encrypt registration contact information
+# Optional: Leave empty for none
+# This value is only used on first order!
+# Setting it at a later point will require the following steps:
+# https://mailcow.github.io/mailcow-dockerized-docs/troubleshooting/debug-reset_tls/
+mailcow__config_acme_contact: ""
+
 # Create seperate certificates for all domains - y/n
 # this will allow adding more than 100 domains, but some email clients will not be able to connect with alternative hostnames
 # see https://wiki.dovecot.org/SSL/SNIClientSupport

@@ -8,6 +8,7 @@
   notify: Recreate mailcow
   loop:
     - WATCHDOG_NOTIFY_EMAIL
+    - ACME_CONTACT
 
 - name: "Configure mailcow.conf"
   replace:
@@ -62,3 +63,5 @@
       value: "{{ mailcow__config_sogo_expire_session }}"
     - variable: COMPOSE_PROJECT_NAME
       value: "{{ mailcow__docker_compose_project_name }}"
+    - variable: ACME_CONTACT
+      value: "{{ mailcow__config_acme_contact }}"
