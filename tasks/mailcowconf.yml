@@ -1,6 +1,7 @@
 ---
 
 - name: "Uncomment mailcow.conf lines"
+  become: yes
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^#({{ item }}=)$"
@@ -11,6 +12,7 @@
     - ACME_CONTACT
 
 - name: "Configure mailcow.conf"
+  become: yes
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
     regexp: "^{{ item.variable }}=.*"
