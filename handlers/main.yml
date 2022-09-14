@@ -17,6 +17,7 @@
 
 - name: Restart mailcow rspamd
   become: yes
-  shell: docker-compose restart rspamd-mailcow
+  shell: |
+    docker-compose --project-name {{ mailcow__docker_compose_project_name }} restart rspamd-mailcow
   args:
     chdir: "{{ mailcow__install_path }}"
