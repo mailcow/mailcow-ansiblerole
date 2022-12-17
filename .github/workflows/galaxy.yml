@@ -1,0 +1,16 @@
+name: Publish to Galaxy
+on:
+  workflow_run:
+    workflows: [Ansible Lint]
+    types: [completed]
+    branches: [master]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: galaxy
+        uses: robertdebock/galaxy-action@1.2.0
+        with:
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
