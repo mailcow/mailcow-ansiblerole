@@ -9,6 +9,7 @@
   notify: Recreate mailcow
   loop:
     - WATCHDOG_NOTIFY_EMAIL
+    - WATCHDOG_SUBJECT
     - ACME_CONTACT
 
 - name: "Configure mailcow.conf"
@@ -59,6 +60,8 @@
       value: "{{ mailcow__config_watchdog_notify_email }}"
     - variable: WATCHDOG_NOTIFY_BAN
       value: "{{ mailcow__config_watchdog_notify_ban }}"
+    - variable: WATCHDOG_SUBJECT
+      value: "{{ mailcow__config_watchdog_subject }}"
     - variable: WATCHDOG_EXTERNAL_CHECKS
       value: "{{ mailcow__config_watchdog_external_checks }}"
     - variable: LOG_LINES
