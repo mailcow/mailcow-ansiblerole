@@ -33,6 +33,8 @@
       value: "{{ mailcow__config_maildir_gc_time }}"
     - variable: ADDITIONAL_SAN
       value: "{{ mailcow__config_additional_san | join(',') }}"
+    - variable: ADDITIONAL_SERVER_NAMES
+      value: "{{ mailcow__config_additional_server_names | join(',') }}"
     - variable: SKIP_LETS_ENCRYPT
       value: "{{ mailcow__config_skip_lets_encrypt }}"
     - variable: ENABLE_SSL_SNI
