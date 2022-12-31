@@ -83,14 +83,19 @@ mailcow__config_skip_sogo: n
 # Allow admins to log into SOGo as email user (without any password)
 mailcow__config_allow_admin_email_login: n
 
-# Enable watchdog (watchdog-mailcow) to restart unhealthy containers (experimental)
+# Enable watchdog (watchdog-mailcow) to restart unhealthy containers
 mailcow__config_use_watchdog: n
-# Send notifications by mail (no DKIM signature, sent from watchdog@MAILCOW_HOSTNAME)
-# Can by multiple rcpts, NO quotation marks
-#WATCHDOG_NOTIFY_EMAIL=a@example.com,b@example.com,c@example.com
+# Send watchdog notifications by mail (sent from watchdog@MAILCOW_HOSTNAME)
+# CAUTION:
+# 1. You should use external recipients
+# 2. Mails are sent unsigned (no DKIM)
+# 3. If you use DMARC, create a separate DMARC policy ("v=DMARC1; p=none;" in _dmarc.MAILCOW_HOSTNAME)
+# Multiple rcpts allowed, NO quotation marks, NO spaces
 mailcow__config_watchdog_notify_email:
 # Notify about banned IP (includes whois lookup)
 mailcow__config_watchdog_notify_ban: y
+# Subject for watchdog mails. Defaults to "Watchdog ALERT" followed by the error message.
+mailcow__config_watchdog_subject:
 
 # Checks if mailcow is an open relay. Requires a SAL. More checks will follow.
 # https://www.servercow.de/mailcow?lang=en
