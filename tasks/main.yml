@@ -53,7 +53,7 @@
 - name: Check if mailcow containers are running
   become: yes
   community.docker.docker_container_info:
-    name: "{{ mailcow__docker_compose_project_name }}_nginx-mailcow_1"
+    name: "{{ mailcow__docker_compose_project_name }}-nginx-mailcow-1"
   register: mailcow_running
 
 - name: Start mailcow container stack
