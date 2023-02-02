@@ -12,7 +12,7 @@ if ./update.sh -c | grep -q 'Updated code is available'; then
   echo "Upgrading Mailcow"
 
   echo "Installing updates"
-  echo 'y' | ./update.sh
+  printf "%s\n" "y" "y" | ./update.sh
 
   echo "Collecting Gargabe"
   echo 'y' | ./update.sh --gc
