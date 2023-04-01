@@ -22,6 +22,13 @@
     dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
 
+- name: Copy the docker compose override file, if present
+  become: yes
+  copy:
+    src: "{{ mailcow__docker_compose_override_file }}"
+    dest: "{{ mailcow__install_path }}/docker-compose.override.yml"
+  when: mailcow__docker_compose_override_file is defined
+
 - name: Generate mailcow.conf file
   shell: ./generate_config.sh
   environment:
