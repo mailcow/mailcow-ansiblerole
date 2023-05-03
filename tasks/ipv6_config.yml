@@ -2,13 +2,13 @@
 
 - name: Set required facts to disable IPv6
   set_fact:
-    mailcow__ipv6_unbound: "no"
+    mailcow__ipv6_unbound: ["no"]
     mailcow__ipv6_postfix_lines: "present"
   when: not mailcow__ipv6 | bool
 
 - name: Set required facts to enable IPv6
   set_fact:
-    mailcow__ipv6_unbound: "yes"
+    mailcow__ipv6_unbound: ["yes"]
     mailcow__ipv6_postfix_lines: "absent"
   when: mailcow__ipv6 | bool
 
@@ -16,8 +16,8 @@
   become: yes
   replace:
     path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
-    regexp: "^do-ip6:.*"
-    replace: "do-ip6: {{ mailcow__ipv6_unbound }}"
+    regexp: "^(\\s*)do-ip6.*"
+    replace: "\\1do-ip6: {{ mailcow__ipv6_unbound[0] }}"
   notify: Recreate mailcow
 
 - name: "Configure Postfix"
