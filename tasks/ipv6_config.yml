@@ -24,7 +24,7 @@
   become: yes
   lineinfile:
     path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
-    regexp: "^{{ item.variable }}=.*"
+    regexp: "^{{ item.variable }}.*"
     line: "{{ item.variable }} = {{ item.value }}"
     state: "{{ mailcow__ipv6_postfix_lines }}"
   notify: Recreate mailcow
