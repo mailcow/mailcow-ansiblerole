@@ -64,6 +64,10 @@
     chdir: "{{ mailcow__install_path }}"
   when: not mailcow_running.exists
 
+- name: Set IPv6 to {{ mailcow__ipv6 }}
+  include_tasks: ipv6_config.yml
+  when: mailcow_running.exists
+
 - name: Update mailcow
   include_tasks: update.yml
   when:

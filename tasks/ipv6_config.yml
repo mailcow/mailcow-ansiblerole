@@ -1,0 +1,62 @@
+---
+
+- name: Set required facts to disable IPv6
+  set_fact:
+    mailcow__ipv6_unbound: ["no"]
+    mailcow__ipv6_postfix_lines: "present"
+  when: not mailcow__ipv6 | bool
+
+- name: Set required facts to enable IPv6
+  set_fact:
+    mailcow__ipv6_unbound: ["yes"]
+    mailcow__ipv6_postfix_lines: "absent"
+  when: mailcow__ipv6 | bool
+
+- name: "Configure Unbound"
+  become: yes
+  replace:
+    path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
+    regexp: "^(\\s*)do-ip6.*"
+    replace: "\\1do-ip6: {{ mailcow__ipv6_unbound[0] }}"
+  notify: Recreate mailcow
+
+- name: "Make sure the extra.cf exists"
+  become: yes
+  file:
+    path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
+    state: touch
+    mode: 0644
+    owner: root
+    group: root
+    modification_time: preserve
+    access_time: preserve
+
+- name: "Configure Postfix"
+  become: yes
+  lineinfile:
+    path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
+    regexp: "^{{ item.variable }}.*"
+    line: "{{ item.variable }} = {{ item.value }}"
+    state: "{{ mailcow__ipv6_postfix_lines }}"
+  notify: Recreate mailcow
+  loop:
+    - variable: "smtp_address_preference"
+      value: "ipv4"
+    - variable: "inet_protocols"
+      value: "ipv4"
+
+- name: "Override docker-compose to disable IPv6"
+  become: yes
+  template:
+    src: docker-compose.override.yml.j2
+    dest: "{{ mailcow__install_path }}/docker-compose.override.yml"
+  notify: Recreate mailcow
+  when: not mailcow__ipv6 | bool
+
+- name: "Make sure docker-compose.override.yml is removed"
+  become: yes
+  file:
+    path: "{{ mailcow__install_path }}/docker-compose.override.yml"
+    state: absent
+  notify: Recreate mailcow
+  when: mailcow__ipv6 | bool
