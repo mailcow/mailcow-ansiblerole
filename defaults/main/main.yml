@@ -21,3 +21,6 @@ mailcow__install_updates: yes
 mailcow__redirect_http_to_https: no
 
 mailcow__rspamd_clamd_servers: clamd:3310
+
+# Enable IPv6 by default
+mailcow__ipv6: yes
