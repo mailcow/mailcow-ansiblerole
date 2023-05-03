@@ -20,6 +20,17 @@
     replace: "\\1do-ip6: {{ mailcow__ipv6_unbound[0] }}"
   notify: Recreate mailcow
 
+- name: "Make sure the extra.cf exists"
+  become: yes
+  file:
+    path: "{{ mailcow__install_path }}/data/conf/postfix/extra.cf"
+    state: touch
+    mode: 0644
+    owner: root
+    group: root
+    modification_time: preserve
+    access_time: preserve
+
 - name: "Configure Postfix"
   become: yes
   lineinfile:
