@@ -59,7 +59,7 @@
 - name: Start mailcow container stack
   become: yes
   shell: |
-    docker-compose --project-name {{ mailcow__docker_compose_project_name }} up -d
+    {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
   args:
     chdir: "{{ mailcow__install_path }}"
   when: not mailcow_running.exists
