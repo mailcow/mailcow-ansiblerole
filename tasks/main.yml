@@ -62,6 +62,9 @@
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
   args:
     chdir: "{{ mailcow__install_path }}"
+  environment:
+    IPV4_NETWORK: "{{ mailcow__docker_network_ipv4 }}"
+    IPV6_NETWORK: "{{ mailcow__docker_network_ipv6 }}"
   when: not mailcow_running.exists
 
 - name: Update mailcow

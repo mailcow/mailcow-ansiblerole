@@ -109,3 +109,9 @@ mailcow__config_log_lines: 9999
 
 # SOGo session timeout in minutes
 mailcow__config_sogo_expire_session: 480
+
+#ipv4 network base for docker network
+mailcow__docker_network_ipv4: 172.22.1
+
+#ipv6 ip range for docker network
+mailcow__docker_network_ipv6: fd4d:6169:6c63:6f77::/64
