@@ -9,7 +9,7 @@
 - name: Check if mailcow installation directory exists
   become: yes
   stat:
-    path: "{{ mailcow__install_path }}"
+    path: "{{ mailcow__install_path }}/.git"
   register: mailcow_installed
 
 - name: Clone mailcow git repo
