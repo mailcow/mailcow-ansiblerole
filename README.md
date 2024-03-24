@@ -19,12 +19,13 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 
 ## Variables
 |                   name                    |                                   purpose                                   |       default value       |                                   note                                    |
-|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:| :-----------------------------------------------------------------------: |
+|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:|:-------------------------------------------------------------------------:|
 |           `mailcow__hostname `            |                            sets MAILCOW_HOSTNAME                            |   `inventory_hostname`    |                 needs to be an full qualified domain name                 |
 |          `mailcow__install_path`          |       sets the path where the mailcow-dockerized repo will be cloned        | `/opt/mailcow-dockerized` |                                                                           |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |         `master`          |                                                                           |
 |            `mailcow__timezone`            | used to set the timezone your mailcow runs in during the config generation  |          not set          |                              **must be set**                              |
 |  `mailcow__docker_compose_project_name`   |        sets the docker-compose projectname to a user-defined string         |    `mailcowdockerized`    |                                                                           |
+|  `mailcow__docker_compose_override_file`  | if set, copy the file as docker-compose.override.yml into the install path  |          not set          |                                                                           |
 |             `mailcow__theme`              |             set the default mailcow theme in vars.local.inc.php             |          `lumen`          |                                                                           |
 |        `mailcow__config_http_port`        |                       sets HTTP_PORT in mailcow.conf                        |           `80`            |                                                                           |
 |        `mailcow__config_http_bind`        |                       sets HTTP_BIND in mailcow.conf                        |          `none`           |                                                                           |
@@ -53,6 +54,7 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |     `mailcow__redirect_http_to_https`     |         if `yes`, all requests via HTTP will be redirected to HTTPS         |           `no`            | also see https://mailcow.github.io/mailcow-dockerized-docs/u_e-80_to_443/ |
 |      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                           |                                                                           |
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |       `clamd:3310`        |                                                                           |
+|           `mailcow__nameserver`           |                   configures "." forward-zone in unbound                    |                           |       add nameserver "," separated    e.g. "192.168.1.1,10.0.0.1"         |
 |        `mailcow__compose_command`         |               configures the command that is used for compose               |     `docker compose`      |      set to `docker-compose` for the standalone version of compose        |
 
 ## Usage

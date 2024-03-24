@@ -21,3 +21,10 @@
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} restart rspamd-mailcow
   args:
     chdir: "{{ mailcow__install_path }}"
+
+- name: Restart mailcow unbound
+  become: yes
+  shell: |
+    {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} restart unbound-mailcow
+  args:
+    chdir: "{{ mailcow__install_path }}"

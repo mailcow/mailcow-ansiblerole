@@ -1,0 +1,21 @@
+- name: Run define forward-zone
+  block:
+    - name: check if file exists {{ mailcow__install_path }}/data/conf/unbound/unbound.conf
+      stat:
+        path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
+      register: file_info
+
+- name: Craft forward nameserver for zone "."
+  set_fact:
+    default_forward_zone: |
+      forward-zone:
+        name: "."
+      {% for ns in mailcow__nameserver.split(',') %}
+        forward-addr: {{ ns }} # Created by mailcow: dockerized - Ansible role
+      {% endfor %}
+
+- name: Update forward-zone unbound.conf
+  blockinfile:
+    path: "{{ mailcow__install_path }}/data/conf/unbound/unbound.conf"
+    block: "{{ default_forward_zone }}"
+  notify: Restart mailcow unbound
