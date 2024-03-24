@@ -19,12 +19,13 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 
 ## Variables
 |                   name                    |                                   purpose                                   |       default value       |                                   note                                    |
-|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:| :-----------------------------------------------------------------------: |
+|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:|:-------------------------------------------------------------------------:|
 |           `mailcow__hostname `            |                            sets MAILCOW_HOSTNAME                            |   `inventory_hostname`    |                 needs to be an full qualified domain name                 |
 |          `mailcow__install_path`          |       sets the path where the mailcow-dockerized repo will be cloned        | `/opt/mailcow-dockerized` |                                                                           |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |         `master`          |                                                                           |
 |            `mailcow__timezone`            | used to set the timezone your mailcow runs in during the config generation  |          not set          |                              **must be set**                              |
 |  `mailcow__docker_compose_project_name`   |        sets the docker-compose projectname to a user-defined string         |    `mailcowdockerized`    |                                                                           |
+|  `mailcow__docker_compose_override_file`  | if set, copy the file as docker-compose.override.yml into the install path  |          not set          |                                                                           |
 |             `mailcow__theme`              |             set the default mailcow theme in vars.local.inc.php             |          `lumen`          |                                                                           |
 |        `mailcow__config_http_port`        |                       sets HTTP_PORT in mailcow.conf                        |           `80`            |                                                                           |
 |        `mailcow__config_http_bind`        |                       sets HTTP_BIND in mailcow.conf                        |          `none`           |                                                                           |
