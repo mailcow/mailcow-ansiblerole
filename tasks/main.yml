@@ -51,6 +51,11 @@
 - name: Template settings for Nginx
   import_tasks: nginx.yml
 
+- name: Template settings for unbound.conf
+  import_tasks: unbound.yml
+  when: mailcow__nameserver is defined
+
+
 - name: Copy vars.local.inc.php
   become: yes
   template:
