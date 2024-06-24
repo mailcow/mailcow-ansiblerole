@@ -109,3 +109,8 @@ mailcow__config_log_lines: 9999
 
 # SOGo session timeout in minutes
 mailcow__config_sogo_expire_session: 480
+
+# Use this IPv4 for outgoing connections (SNAT)
+mailcow__config_snat_to_source:
+# Use this IPv6 for outgoing connections (SNAT)
+mailcow__config_snat6_to_source:

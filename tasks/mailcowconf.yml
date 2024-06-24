@@ -72,3 +72,7 @@
       value: "{{ mailcow__docker_compose_project_name }}"
     - variable: ACME_CONTACT
       value: "{{ mailcow__config_acme_contact }}"
+    - variable: SNAT_TO_SOURCE
+      value: "{{ mailcow__config_snat_to_source }}"
+    - variable: SNAT6_TO_SOURCE
+      value: "{{ mailcow__config_snat6_to_source }}"
