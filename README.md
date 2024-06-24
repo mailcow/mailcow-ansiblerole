@@ -54,6 +54,8 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                           |                                                                           |
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |       `clamd:3310`        |                                                                           |
 |        `mailcow__compose_command`         |               configures the command that is used for compose               |     `docker compose`      |      set to `docker-compose` for the standalone version of compose        |
+|     `mailcow__config_snat_to_source`      |                     sets SNAT_TO_SOURCE in mailcow.conf                     |                           |                                                                           |
+|     `mailcow__config_snat6_to_source`     |                     sets SNAT6_TO_SOURCE in mailcow.conf                    |                           |                                                                           |
 
 ## Usage
 
