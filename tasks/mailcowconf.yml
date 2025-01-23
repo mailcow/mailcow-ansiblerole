@@ -46,10 +46,6 @@
       value: "{{ mailcow__config_skip_http_verification }}"
     - variable: SKIP_CLAMD
       value: "{{ mailcow__config_skip_clamd }}"
-    - variable: SKIP_SOLR
-      value: "{{ mailcow__config_skip_solr }}"
-    - variable: SOLR_HEAP
-      value: "{{ mailcow__config_solr_heap }}"
     - variable: SKIP_SOGO
       value: "{{ mailcow__config_skip_sogo }}"
     - variable: ALLOW_ADMIN_EMAIL_LOGIN
@@ -72,3 +68,9 @@
       value: "{{ mailcow__docker_compose_project_name }}"
     - variable: ACME_CONTACT
       value: "{{ mailcow__config_acme_contact }}"
+    - variable: FTS_HEAP
+      value: "{{ mailcow__config_fts_heap }}"
+    - variable: FTS_PROCS
+      value: "{{ mailcow__config_fts_procs }}"
+    - variable: SKIP_FTS
+      value: "{{ mailcow__config_skip_fts }}"
