@@ -19,7 +19,7 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 
 ## Variables
 |                   name                    |                                   purpose                                   |       default value       |                                   note                                    |
-|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:| :-----------------------------------------------------------------------: |
+| :---------------------------------------: | :-------------------------------------------------------------------------: | :-----------------------: | :-----------------------------------------------------------------------: |
 |           `mailcow__hostname `            |                            sets MAILCOW_HOSTNAME                            |   `inventory_hostname`    |                 needs to be an full qualified domain name                 |
 |          `mailcow__install_path`          |       sets the path where the mailcow-dockerized repo will be cloned        | `/opt/mailcow-dockerized` |                                                                           |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |         `master`          |                                                                           |
@@ -39,21 +39,22 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |      `mailcow__config_skip_ip_check`      |                     sets SKIP_IP_CHECK in mailcow.conf                      |                           |                                                                           |
 | `mailcow__config_skip_http_verification`  |                 sets SKIP_HTTP_VERIFICATION in mailcow.conf                 |            `n`            |                                                                           |
 |       `mailcow__config_skip_clamd`        |                       sets SKIP_CLAMD in mailcow.conf                       |            `n`            |                                                                           |
-|        `mailcow__config_skip_solr`        |                       sets SKIP_SOLR in mailcow.conf                        |            `n`            |                                                                           |
-|        `mailcow__config_solr_heap`        |                       sets SOLR_HEAP in mailcow.conf                        |          `1024`           |                                                                           |
+|        `mailcow__config_skip_fts`         |                        sets SKIP_FTS in mailcow.conf                        |            `n`            |                   disables Full-text search (flatcurve)                   |
+|        `mailcow__config_fts_heap`         |                        sets FTS_HEAP in mailcow.conf                        |           `128`           |                sets the max amount of ram per index worker                |
+|        `mailcow__config_fts_procs`        |                       sets FTS_PROCS in mailcow.conf                        |            `1`            |                 amount of indexing processes max. running                 |
 |        `mailcow__config_skip_sogo`        |                       sets SKIP_SOGO in mailcow.conf                        |            `n`            |                                                                           |
 | `mailcow__config_allow_admin_email_login` |                sets ALLOW_ADMIN_EMAIL_LOGIN in mailcow.conf                 |            `n`            |                                                                           |
 |      `mailcow__config_use_watchdog`       |                      sets USE_WATCHDOG in mailcow.conf                      |            `n`            |                                                                           |
 |  `mailcow__config_watchdog_notify_email`  |                 sets WATCHDOG_NOTIFY_EMAIL in mailcow.conf                  |                           |                                                                           |
 |   `mailcow__config_watchdog_notify_ban`   |                  sets WATCHDOG_NOTIFY_BAN in mailcow.conf                   |            `y`            |                                                                           |
-|  `mailcow__config_watchdog_subject`       |                    sets WATCHDOG_SUBJECT in mailcow.conf                    |    `Watchdog ALERT`       |                                                                           |
+|    `mailcow__config_watchdog_subject`     |                    sets WATCHDOG_SUBJECT in mailcow.conf                    |     `Watchdog ALERT`      |                                                                           |
 |        `mailcow__config_log_lines`        |                       sets LOG_LINES in mailcow.conf                        |          `9999`           |                                                                           |
 |   `mailcow__config_sogo_expire_session`   |                  sets SOGO_EXPIRE_SESSION in mailcow.conf                   |           `480`           |                                                                           |
 |        `mailcow__install_updates`         | if `yes` the mailcow ansible role will also update an existing installation |           `yes`           |                                                                           |
 |     `mailcow__redirect_http_to_https`     |         if `yes`, all requests via HTTP will be redirected to HTTPS         |           `no`            | also see https://mailcow.github.io/mailcow-dockerized-docs/u_e-80_to_443/ |
 |      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                           |                                                                           |
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |       `clamd:3310`        |                                                                           |
-|        `mailcow__compose_command`         |               configures the command that is used for compose               |     `docker compose`      |      set to `docker-compose` for the standalone version of compose        |
+|        `mailcow__compose_command`         |               configures the command that is used for compose               |     `docker compose`      |       set to `docker-compose` for the standalone version of compose       |
 
 ## Usage
 
