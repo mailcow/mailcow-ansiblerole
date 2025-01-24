@@ -70,13 +70,6 @@ mailcow__config_skip_http_verification: n
 # Skip ClamAV (clamd-mailcow) anti-virus (Rspamd will auto-detect a missing ClamAV container) - y/n
 mailcow__config_skip_clamd: n
 
-# Skip Solr on low-memory systems or if you do not want to store a readable index of your mails in solr-vol-1.
-mailcow__config_skip_solr: n
-
-# Solr heap size in MB, there is no recommendation, please see Solr docs.
-# Solr is a prone to run OOM and should be monitored. Unmonitored Solr setups are not recommended.
-mailcow__config_solr_heap: 1024
-
 # Skip SOGo: Will disable SOGo integration and therefore webmail, DAV protocols and ActiveSync support (experimental, unsupported, not fully implemented) - y/n
 mailcow__config_skip_sogo: n
 
@@ -109,3 +102,15 @@ mailcow__config_log_lines: 9999
 
 # SOGo session timeout in minutes
 mailcow__config_sogo_expire_session: 480
+
+# Dovecot Indexing (FTS) Process maximum heap size in MB, there is no recommendation, please see Dovecot docs.
+# Flatcurve is used as FTS Engine. It is supposed to be pretty efficient in CPU and RAM consumption.
+# Please always monitor your Resource consumption!
+mailcow__config_fts_heap: 128
+# Controls how many processes the Dovecot indexing process can spawn at max.
+# Too many indexing processes can use a lot of CPU and Disk I/O
+# Please visit: https://doc.dovecot.org/configuration_manual/service_configuration/#indexer-worker for more informations
+mailcow__config_fts_procs: 1
+# Skip FTS (Fulltext Search) for Dovecot on low-memory, low-threaded systems or if you simply want to disable it.
+# Dovecot inside mailcow use Flatcurve as FTS Backend.
+mailcow__config_skip_fts: n
