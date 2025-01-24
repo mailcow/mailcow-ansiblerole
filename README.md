@@ -55,7 +55,7 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |     `mailcow__redirect_http_to_https`     |         if `yes`, all requests via HTTP will be redirected to HTTPS         |                        `no`                         | also see https://mailcow.github.io/mailcow-dockerized-docs/u_e-80_to_443/ |
 |      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                                                     |                                                                           |
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |                    `clamd:3310`                     |                                                                           |
-|     `mailcow__rspamd_clamd_patterns*`     |    configures custom clamd rspamd patterns inside rspamd antivirus.conf     |                                                     |                   needs to be a list  of name and regex                   |
+|     `mailcow__rspamd_clamd_patterns`      |    configures custom clamd rspamd patterns inside rspamd antivirus.conf     |                                                     |                   needs to be a list  of name and regex                   |
 |        `mailcow__compose_command`         |               configures the command that is used for compose               |                  `docker compose`                   |       set to `docker-compose` for the standalone version of compose       |
 
 ## Usage
