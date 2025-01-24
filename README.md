@@ -1,6 +1,6 @@
 # mailcow: dockerized - Ansible role 🐮 + 🐋 = 💕
 
-This role will setup a mailcow dockerized email server.
+This role will set up a mailcow dockerized email server.
 
 ## Prerequisites
 
@@ -19,12 +19,13 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 
 ## Variables
 |                   name                    |                                   purpose                                   |       default value       |                                   note                                    |
-|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:| :-----------------------------------------------------------------------: |
+|:-----------------------------------------:|:---------------------------------------------------------------------------:|:-------------------------:|:-------------------------------------------------------------------------:|
 |           `mailcow__hostname `            |                            sets MAILCOW_HOSTNAME                            |   `inventory_hostname`    |                 needs to be an full qualified domain name                 |
 |          `mailcow__install_path`          |       sets the path where the mailcow-dockerized repo will be cloned        | `/opt/mailcow-dockerized` |                                                                           |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |         `master`          |                                                                           |
 |            `mailcow__timezone`            | used to set the timezone your mailcow runs in during the config generation  |          not set          |                              **must be set**                              |
 |  `mailcow__docker_compose_project_name`   |        sets the docker-compose projectname to a user-defined string         |    `mailcowdockerized`    |                                                                           |
+|  `mailcow__docker_compose_override_file`  | if set, copy the file as docker-compose.override.yml into the install path  |          not set          |                                                                           |
 |             `mailcow__theme`              |             set the default mailcow theme in vars.local.inc.php             |          `lumen`          |                                                                           |
 |        `mailcow__config_http_port`        |                       sets HTTP_PORT in mailcow.conf                        |           `80`            |                                                                           |
 |        `mailcow__config_http_bind`        |                       sets HTTP_BIND in mailcow.conf                        |          `none`           |                                                                           |
@@ -46,7 +47,7 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |      `mailcow__config_use_watchdog`       |                      sets USE_WATCHDOG in mailcow.conf                      |            `n`            |                                                                           |
 |  `mailcow__config_watchdog_notify_email`  |                 sets WATCHDOG_NOTIFY_EMAIL in mailcow.conf                  |                           |                                                                           |
 |   `mailcow__config_watchdog_notify_ban`   |                  sets WATCHDOG_NOTIFY_BAN in mailcow.conf                   |            `y`            |                                                                           |
-|  `mailcow__config_watchdog_subject`       |                    sets WATCHDOG_SUBJECT in mailcow.conf                    |    `Watchdog ALERT`       |                                                                           |
+|    `mailcow__config_watchdog_subject`     |                    sets WATCHDOG_SUBJECT in mailcow.conf                    |     `Watchdog ALERT`      |                                                                           |
 |        `mailcow__config_log_lines`        |                       sets LOG_LINES in mailcow.conf                        |          `9999`           |                                                                           |
 |   `mailcow__config_sogo_expire_session`   |                  sets SOGO_EXPIRE_SESSION in mailcow.conf                   |           `480`           |                                                                           |
 |        `mailcow__install_updates`         | if `yes` the mailcow ansible role will also update an existing installation |           `yes`           |                                                                           |
