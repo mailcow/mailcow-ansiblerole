@@ -1,9 +1,11 @@
 ---
 
-- name: Configure rspamd clamv server
+- name: Deploy rspamd antivirus.conf
   become: yes
-  replace:
-    path: "{{ mailcow__install_path }}/data/conf/rspamd/local.d/antivirus.conf"
-    regexp: "^  servers = \".*\";$"
-    replace: "  servers = \"{{ mailcow__rspamd_clamd_servers }}\";"
+  template:
+    src: antivirus.conf.j2
+    dest: "{{ mailcow__install_path }}/data/conf/rspamd/local.d/antivirus.conf"
+    owner: root
+    group: root
+    mode: "0644"
   notify: Restart mailcow rspamd

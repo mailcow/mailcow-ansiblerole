@@ -1,0 +1,20 @@
+# DEPLOYED BY MAILCOW ANSIBLE ROLE
+clamav {
+  # Scan whole message
+  scan_mime_parts = false;
+  #scan_text_mime = true;
+  #scan_image_mime = true;
+  symbol = "CLAM_VIRUS";
+  type = "clamav";
+  log_clean = true;
+  servers = "{{ mailcow__rspamd_clamd_servers | default('clamd:3310') }}";
+  max_size = 20971520;
+
+  {% if mailcow__rspamd_clamd_patterns is defined and mailcow__rspamd_clamd_patterns | length > 0 %}
+  patterns {
+    {% for pattern in mailcow__rspamd_clamd_patterns %}
+    {{ pattern.name }} = "{{ pattern.regex }}";
+    {% endfor %}
+  }
+  {% endif %}
+}
