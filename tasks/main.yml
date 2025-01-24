@@ -23,7 +23,9 @@
   when: not mailcow_installed.stat.exists
 
 - name: Generate mailcow.conf file
-  shell: ./generate_config.sh
+  shell: |
+    umask 0022
+    ./generate_config.sh
   environment:
     MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
     MAILCOW_TZ: "{{ mailcow__timezone }}"
