@@ -3,6 +3,7 @@
 mailcow__hostname: "{{ inventory_hostname }}"
 
 mailcow__install_path: "/opt/mailcow-dockerized"
+mailcow__git_repo: 'https://github.com/mailcow/mailcow-dockerized.git'
 mailcow__git_version: master
 
 mailcow__timezone: Europe/Berlin
