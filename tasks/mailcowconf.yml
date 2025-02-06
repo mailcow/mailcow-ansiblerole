@@ -19,7 +19,7 @@
 
 - name: "Set deprecated variable mailcow__redirect_http_to_https to mailcow__config_http_redirect"
   set_fact: 
-    mailcow__config_http_redirect: "{{ mailcow__redirect_http_to_https }}"
+    mailcow__config_http_redirect: "{{ 'y' if mailcow__redirect_http_to_https | default(false) else 'n' }}"
   when: mailcow__redirect_http_to_https is defined
 
 - name: "Configure mailcow.conf"
