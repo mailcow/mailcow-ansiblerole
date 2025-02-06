@@ -12,6 +12,16 @@
     - WATCHDOG_SUBJECT
     - ACME_CONTACT
 
+- name: Warn if mailcow__redirect_http_to_https is used
+  debug:
+    msg: "WARNING: The variable 'mailcow__redirect_http_to_https' is depcrecated and will be removed soon. Please use 'mailcow__config_http_redirect' instead."
+  when: mailcow__redirect_http_to_https is defined
+
+- name: "Set deprecated variable mailcow__redirect_http_to_https to mailcow__config_http_redirect"
+  set_fact: 
+    mailcow__config_http_redirect: "{{ mailcow__redirect_http_to_https }}"
+  when: mailcow__redirect_http_to_https is defined
+
 - name: "Configure mailcow.conf"
   become: yes
   replace:
@@ -74,3 +84,5 @@
       value: "{{ mailcow__config_fts_procs }}"
     - variable: SKIP_FTS
       value: "{{ mailcow__config_skip_fts }}"
+    - variable: HTTP_REDIRECT
+      value: "{{ mailcow__config_http_redirect }}"
