@@ -19,8 +19,6 @@ mailcow__theme: lumen
 
 mailcow__install_updates: yes
 
-mailcow__redirect_http_to_https: no
-
 mailcow__rspamd_clamd_servers: clamd:3310
 
 # Change this to "docker-compose" if you use the standalone version of compose

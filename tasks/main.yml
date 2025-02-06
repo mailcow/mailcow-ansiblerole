@@ -43,7 +43,7 @@
 - name: Configure Rspamd
   import_tasks: rspamd.yml
 
-- name: Template settings for Nginx
+- name: Migrate NGINX Redirect
   import_tasks: nginx.yml
 
 - name: Copy vars.local.inc.php

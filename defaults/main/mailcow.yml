@@ -114,3 +114,6 @@ mailcow__config_fts_procs: 1
 # Skip FTS (Fulltext Search) for Dovecot on low-memory, low-threaded systems or if you simply want to disable it.
 # Dovecot inside mailcow use Flatcurve as FTS Backend.
 mailcow__config_skip_fts: n
+
+# Redirect HTTP connections to HTTPS - y/n
+mailcow__config_http_redirect: n
