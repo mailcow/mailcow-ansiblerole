@@ -57,7 +57,8 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |                    `clamd:3310`                     |                                                               |
 |     `mailcow__rspamd_clamd_patterns`      |    configures custom clamd rspamd patterns inside rspamd antivirus.conf     |                                                     |             needs to be a list  of name and regex             |
 |        `mailcow__compose_command`         |               configures the command that is used for compose               |                  `docker compose`                   | set to `docker-compose` for the standalone version of compose |
-
+|      `mailcow__docker_network_ipv4`       |             configures the ipv4 network range used for compose              |                     `172.22.1`                      |  useful when you have other containers running on the system  |
+|      `mailcow__docker_network_ipv6`       |             configures the ipv4 network range used for compose              |              `fd4d:6169:6c63:6f77::/64`             |  useful when you have other containers running on the system  |
 
 > [!CAUTION]  
 > The Variable `mailcow__redirect_http_to_https` is **deprecated** but still accepted and will be removed on a later date. Please use the replacement: `mailcow__config_http_redirect` instead.
