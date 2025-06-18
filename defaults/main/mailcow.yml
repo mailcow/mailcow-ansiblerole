@@ -7,6 +7,16 @@
 
 mailcow__config: {}
 
+# These values are kept in mailcow.conf even if they are not specified in ansible
+mailcow__config_keep:
+  - DBNAME
+  - DBUSER
+  - DBPASS
+  - DBROOT
+  - REDISPASS
+  - IPV4_NETWORK
+  - IPV6_NETWORK
+
 # -------------
 # Mailcow.conf legacy configuration & default values
 # -------------

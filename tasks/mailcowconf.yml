@@ -29,3 +29,12 @@
     line: "{{ item.key }}={{ item.value }}"
   notify: Recreate mailcow
   loop: "{{ mailcow__config_real | dict2items }}"
+
+- name: Comment all values from mailcow.conf that are not configured in ansible
+  become: true
+  when: mailcow__config != {}
+  replace:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "(^(?!({{ ((mailcow__config_real | list) + mailcow__config_keep) | join('|') }}))[A-Za-z0-9_]+=.*$)"
+    replace: "#\\1"
+  notify: Recreate mailcow

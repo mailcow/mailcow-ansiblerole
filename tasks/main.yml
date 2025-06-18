@@ -26,8 +26,8 @@
     umask 0022
     ./generate_config.sh
   environment:
-    MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
-    MAILCOW_TZ: "{{ mailcow__timezone }}"
+    MAILCOW_HOSTNAME: "{{ mailcow__config_real.MAILCOW_HOSTNAME }}"
+    MAILCOW_TZ: "{{ mailcow__config_real.TZ }}"
     MAILCOW_BRANCH: "{{ mailcow__git_version }}"
   args:
     executable: /bin/bash
