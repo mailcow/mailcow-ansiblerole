@@ -20,47 +20,100 @@ This role will use by default the `inventory_hostname` as mailcow hostname, this
 ## Variables
 |                   name                    |                                   purpose                                   |                    default value                    |                             note                              |
 | :---------------------------------------: | :-------------------------------------------------------------------------: | :-------------------------------------------------: | :-----------------------------------------------------------: |
-|           `mailcow__hostname `            |                            sets MAILCOW_HOSTNAME                            |                `inventory_hostname`                 |           needs to be an full qualified domain name           |
+|           `mailcow__hostname`             |                            sets MAILCOW_HOSTNAME                            |                `inventory_hostname`                 |           needs to be an full qualified domain name           |
 |          `mailcow__install_path`          |       sets the path where the mailcow-dockerized repo will be cloned        |              `/opt/mailcow-dockerized`              |                                                               |
 |            `mailcow__git_repo`            |                   Get mailcow from a specific repository                    | `https://github.com/mailcow/mailcow-dockerized.git` |                                                               |
 |          `mailcow__git_version`           |                   checkout a specific version of mailcow                    |                      `master`                       |                                                               |
 |            `mailcow__timezone`            | used to set the timezone your mailcow runs in during the config generation  |                       not set                       |                        **must be set**                        |
 |  `mailcow__docker_compose_project_name`   |        sets the docker-compose projectname to a user-defined string         |                 `mailcowdockerized`                 |                                                               |
 |             `mailcow__theme`              |             set the default mailcow theme in vars.local.inc.php             |                       `lumen`                       |                                                               |
-|        `mailcow__config_http_port`        |                       sets HTTP_PORT in mailcow.conf                        |                        `80`                         |                                                               |
-|        `mailcow__config_http_bind`        |                       sets HTTP_BIND in mailcow.conf                        |                       `none`                        |                                                               |
-|       `mailcow__config_https_port`        |                       sets HTTPS_PORT in mailcow.conf                       |                        `443`                        |                                                               |
-|       `mailcow__config_https_bind`        |                       sets HTTPS_BIND in mailcow.conf                       |                       `none`                        |                                                               |
-|       `mailcow__config_acl_anyone`        |                               sets ACL_ANYONE                               |                      disallow                       |                                                               |
-|     `mailcow__config_maildir_gc_time`     |                    sets MAILDIR_GC_TIME in mailcow.conf                     |                       `1440`                        |                                                               |
-|     `mailcow__config_additional_san`      |                     sets ADDITIONAL_SAN in mailcow.conf                     |                                                     |                      needs to be a list                       |
-| `mailcow__config_additional_server_names` |                sets ADDITIONAL_SERVER_NAMES in mailcow.conf                 |                                                     |                      needs to be a list                       |
-|    `mailcow__config_skip_lets_encrypt`    |                   sets SKIP_LETS_ENCRYPT in mailcow.conf                    |                                                     |                                                               |
-|     `mailcow__config_enable_ssl_sni`      |                     sets ENABLE_SSL_SNI in mailcow.conf                     |                                                     |                                                               |
-|      `mailcow__config_skip_ip_check`      |                     sets SKIP_IP_CHECK in mailcow.conf                      |                                                     |                                                               |
-| `mailcow__config_skip_http_verification`  |                 sets SKIP_HTTP_VERIFICATION in mailcow.conf                 |                         `n`                         |                                                               |
-|       `mailcow__config_skip_clamd`        |                       sets SKIP_CLAMD in mailcow.conf                       |                         `n`                         |                                                               |
-|        `mailcow__config_skip_fts`         |                        sets SKIP_FTS in mailcow.conf                        |                         `n`                         |             disables Full-text search (flatcurve)             |
-|        `mailcow__config_fts_heap`         |                        sets FTS_HEAP in mailcow.conf                        |                        `128`                        |          sets the max amount of ram per index worker          |
-|        `mailcow__config_fts_procs`        |                       sets FTS_PROCS in mailcow.conf                        |                         `1`                         |           amount of indexing processes max. running           |
-|        `mailcow__config_skip_sogo`        |                       sets SKIP_SOGO in mailcow.conf                        |                         `n`                         |                                                               |
-|      `mailcow__config_http_redirect`      |        sets HTTP_REDIRECT in mailcow.conf to control HTTP Redirects         |                         `n`                         |                       can be `y` or `n`                       |
-| `mailcow__config_allow_admin_email_login` |                sets ALLOW_ADMIN_EMAIL_LOGIN in mailcow.conf                 |                         `n`                         |                                                               |
-|      `mailcow__config_use_watchdog`       |                      sets USE_WATCHDOG in mailcow.conf                      |                         `n`                         |                                                               |
-|  `mailcow__config_watchdog_notify_email`  |                 sets WATCHDOG_NOTIFY_EMAIL in mailcow.conf                  |                                                     |                                                               |
-|   `mailcow__config_watchdog_notify_ban`   |                  sets WATCHDOG_NOTIFY_BAN in mailcow.conf                   |                         `y`                         |                                                               |
-|    `mailcow__config_watchdog_subject`     |                    sets WATCHDOG_SUBJECT in mailcow.conf                    |                  `Watchdog ALERT`                   |                                                               |
-|        `mailcow__config_log_lines`        |                       sets LOG_LINES in mailcow.conf                        |                       `9999`                        |                                                               |
-|   `mailcow__config_sogo_expire_session`   |                  sets SOGO_EXPIRE_SESSION in mailcow.conf                   |                        `480`                        |                                                               |
+|             `mailcow__config`             |                       set mailcow.conf overrides                            |                                                     |               see [Mailcow.conf](#mailcowconf)                |
+|          `mailcow__config_keep`           | These values are kept in mailcow.conf even if they are not specified in ansible | [DBNAME, DBUSER, DBPASS, DBROOT, REDISPASS, IPV4_NETWORK, IPV6_NETWORK]     |               see [Mailcow.conf](#mailcowconf)                |
 |        `mailcow__install_updates`         | if `yes` the mailcow ansible role will also update an existing installation |                        `yes`                        |                                                               |
-|      `mailcow__config_acme_contact`       |                      sets ACME_CONTACT in mailcow.conf                      |                                                     |                                                               |
 |      `mailcow__rspamd_clamd_servers`      |                 configures the clamd server used by rspamd                  |                    `clamd:3310`                     |                                                               |
 |     `mailcow__rspamd_clamd_patterns`      |    configures custom clamd rspamd patterns inside rspamd antivirus.conf     |                                                     |             needs to be a list  of name and regex             |
 |        `mailcow__compose_command`         |               configures the command that is used for compose               |                  `docker compose`                   | set to `docker-compose` for the standalone version of compose |
 
 
-> [!CAUTION]  
+> [!CAUTION]
 > The Variable `mailcow__redirect_http_to_https` is **deprecated** but still accepted and will be removed on a later date. Please use the replacement: `mailcow__config_http_redirect` instead.
+
+## Mailcow.conf
+
+To set mailcow.conf variables use the `mailcow__config` variable. These variables are all read as strings and stored as-is in mailcow.conf.
+
+Variables that are not specified will use these defaults:
+
+```yaml
+ACL_ANYONE: "disallow"
+ACME_CONTACT: ""
+ADDITIONAL_SAN: ""
+ADDITIONAL_SERVER_NAMES: ""
+ALLOW_ADMIN_EMAIL_LOGIN: "n"
+AUTODISCOVER_SAN: "y"
+COMPOSE_PROJECT_NAME: "{{ mailcow__docker_compose_project_name }}"
+DISABLE_NETFILTER_ISOLATION_RULE: "n"
+DOCKER_COMPOSE_VERSION: "native"
+DOVEADM_PORT: "127.0.0.1:19991"
+DOVECOT_MASTER_PASS: ""
+DOVECOT_MASTER_USER: ""
+ENABLE_SSL_SNI: "n"
+FTS_HEAP: "128"
+FTS_PROCS: "1"
+HTTP_BIND: ""
+HTTP_PORT: "80"
+HTTP_REDIRECT: "n"
+HTTPS_BIND: ""
+HTTPS_PORT: "443"
+IMAP_PORT: "143"
+IMAPS_PORT: "993"
+LOG_LINES: "9999"
+MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
+MAILCOW_PASS_SCHEME: "BLF-CRYPT"
+MAILDIR_GC_TIME: "1440"
+MAILDIR_SUB: "Maildir"
+POP_PORT: "110"
+POPS_PORT: "995"
+REDIS_PORT: "127.0.0.1:7654"
+SIEVE_PORT: "4190"
+SKIP_CLAMD: "n"
+SKIP_FTS: "n"
+SKIP_HTTP_VERIFICATION: "n"
+SKIP_IP_CHECK: "n"
+SKIP_LETS_ENCRYPT: "n"
+SKIP_OLEFY: "n"
+SKIP_SOGO: "n"
+SKIP_UNBOUND_HEALTHCHECK: "n"
+SMTP_PORT: "25"
+SMTPS_PORT: "465"
+SOGO_EXPIRE_SESSION: "480"
+SPAMHAUS_DQS_KEY: ""
+SQL_PORT: "127.0.0.1:13306"
+SUBMISSION_PORT: "587"
+TZ: "{{ mailcow__timezone }}"
+USE_WATCHDOG: "n"
+WATCHDOG_EXTERNAL_CHECKS: "n"
+WATCHDOG_NOTIFY_BAN: "y"
+WATCHDOG_NOTIFY_EMAIL: ""
+WATCHDOG_NOTIFY_START: "y"
+WATCHDOG_SUBJECT: ""
+WATCHDOG_VERBOSE: "n"
+WEBAUTHN_ONLY_TRUSTED_VENDORS: "n"
+```
+
+Any other variables that are not in `mailcow__config_keep` either will be commented out.
+
+Example:
+
+```yaml
+mailcow__config:
+  HTTP_PORT: "8080"
+  HTTPS_PORT: "4443"
+  SKIP_LETS_ENCRYPT: "y"
+```
+
+> [!CAUTION]
+> Previous versions of the role supported setting mailcow.conf variables with ansible variables starting with `mailcow__conf_`. This is deprecated and will be removed at a later date. Please use the replacement: `mailcow__conf`.
 
 ## Usage
 

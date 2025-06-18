@@ -1,5 +1,4 @@
 ---
-
 - name: "Uncomment mailcow.conf lines"
   become: yes
   replace:
@@ -18,71 +17,24 @@
   when: mailcow__redirect_http_to_https is defined
 
 - name: "Set deprecated variable mailcow__redirect_http_to_https to mailcow__config_http_redirect"
-  set_fact: 
+  set_fact:
     mailcow__config_http_redirect: "{{ 'y' if mailcow__redirect_http_to_https | default(false) else 'n' }}"
   when: mailcow__redirect_http_to_https is defined
 
 - name: "Configure mailcow.conf"
   become: yes
+  lineinfile:
+    path: "{{ mailcow__install_path }}/mailcow.conf"
+    regexp: "^{{ item.key }}=.*"
+    line: "{{ item.key }}={{ item.value }}"
+  notify: Recreate mailcow
+  loop: "{{ mailcow__config_real | dict2items }}"
+
+- name: Comment all values from mailcow.conf that are not configured in ansible
+  become: true
+  when: mailcow__config != {}
   replace:
     path: "{{ mailcow__install_path }}/mailcow.conf"
-    regexp: "^{{ item.variable }}=.*"
-    replace: "{{ item.variable }}={{ item.value }}"
+    regexp: "(^(?!({{ ((mailcow__config_real | list) + mailcow__config_keep) | join('|') }}))[A-Za-z0-9_]+=.*$)"
+    replace: "#\\1"
   notify: Recreate mailcow
-  loop:
-    - variable: HTTP_PORT
-      value: "{{ mailcow__config_http_port }}"
-    - variable: HTTP_BIND
-      value: "{{ (mailcow__config_http_bind | ansible.utils.ipaddr) if mailcow__config_http_bind is not none else '' }}"
-    - variable: HTTPS_PORT
-      value: "{{ mailcow__config_https_port }}"
-    - variable: HTTPS_BIND
-      value: "{{ (mailcow__config_https_bind | ansible.utils.ipaddr) if mailcow__config_https_bind is not none else '' }}"
-    - variable: ACL_ANYONE
-      value: "{{ mailcow__config_acl_anyone }}"
-    - variable: MAILDIR_GC_TIME
-      value: "{{ mailcow__config_maildir_gc_time }}"
-    - variable: ADDITIONAL_SAN
-      value: "{{ mailcow__config_additional_san | join(',') }}"
-    - variable: ADDITIONAL_SERVER_NAMES
-      value: "{{ mailcow__config_additional_server_names | join(',') }}"
-    - variable: SKIP_LETS_ENCRYPT
-      value: "{{ mailcow__config_skip_lets_encrypt }}"
-    - variable: ENABLE_SSL_SNI
-      value: "{{ mailcow__config_enable_ssl_sni }}"
-    - variable: SKIP_IP_CHECK
-      value: "{{ mailcow__config_skip_ip_check }}"
-    - variable: SKIP_HTTP_VERIFICATION
-      value: "{{ mailcow__config_skip_http_verification }}"
-    - variable: SKIP_CLAMD
-      value: "{{ mailcow__config_skip_clamd }}"
-    - variable: SKIP_SOGO
-      value: "{{ mailcow__config_skip_sogo }}"
-    - variable: ALLOW_ADMIN_EMAIL_LOGIN
-      value: "{{ mailcow__config_allow_admin_email_login }}"
-    - variable: USE_WATCHDOG
-      value: "{{ mailcow__config_use_watchdog }}"
-    - variable: WATCHDOG_NOTIFY_EMAIL
-      value: "{{ mailcow__config_watchdog_notify_email }}"
-    - variable: WATCHDOG_NOTIFY_BAN
-      value: "{{ mailcow__config_watchdog_notify_ban }}"
-    - variable: WATCHDOG_SUBJECT
-      value: "{{ mailcow__config_watchdog_subject }}"
-    - variable: WATCHDOG_EXTERNAL_CHECKS
-      value: "{{ mailcow__config_watchdog_external_checks }}"
-    - variable: LOG_LINES
-      value: "{{ mailcow__config_log_lines }}"
-    - variable: SOGO_EXPIRE_SESSION
-      value: "{{ mailcow__config_sogo_expire_session }}"
-    - variable: COMPOSE_PROJECT_NAME
-      value: "{{ mailcow__docker_compose_project_name }}"
-    - variable: ACME_CONTACT
-      value: "{{ mailcow__config_acme_contact }}"
-    - variable: FTS_HEAP
-      value: "{{ mailcow__config_fts_heap }}"
-    - variable: FTS_PROCS
-      value: "{{ mailcow__config_fts_procs }}"
-    - variable: SKIP_FTS
-      value: "{{ mailcow__config_skip_fts }}"
-    - variable: HTTP_REDIRECT
-      value: "{{ mailcow__config_http_redirect }}"

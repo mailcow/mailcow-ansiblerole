@@ -1,5 +1,4 @@
 ---
-
 - name: Install required apt packages
   become: yes
   apt:
@@ -17,7 +16,7 @@
   git:
     repo: "{{ mailcow__git_repo }}"
     version: "{{ mailcow__git_version }}"
-    umask: '022'
+    umask: "022"
     update: false
     dest: "{{ mailcow__install_path }}"
   when: not mailcow_installed.stat.exists
@@ -27,8 +26,8 @@
     umask 0022
     ./generate_config.sh
   environment:
-    MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
-    MAILCOW_TZ: "{{ mailcow__timezone }}"
+    MAILCOW_HOSTNAME: "{{ mailcow__config_real.MAILCOW_HOSTNAME }}"
+    MAILCOW_TZ: "{{ mailcow__config_real.TZ }}"
     MAILCOW_BRANCH: "{{ mailcow__git_version }}"
   args:
     executable: /bin/bash
@@ -55,13 +54,13 @@
 - name: Check if mailcow containers are running
   become: yes
   community.docker.docker_container_info:
-    name: "{{ mailcow__docker_compose_project_name }}-nginx-mailcow-1"
+    name: "{{ mailcow__config_real.COMPOSE_PROJECT_NAME }}-nginx-mailcow-1"
   register: mailcow_running
 
 - name: Start mailcow container stack
   become: yes
   shell: |
-    {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} up -d
+    {{ mailcow__compose_command }} --project-name {{ mailcow__config_real.COMPOSE_PROJECT_NAME }} up -d
   args:
     chdir: "{{ mailcow__install_path }}"
   when: not mailcow_running.exists
