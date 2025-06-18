@@ -1,0 +1,41 @@
+# -------------
+# Mailcow.conf default values
+# -------------
+
+mailcow__config_default:
+  MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
+  TZ: "{{ mailcow__timezone }}"
+  HTTP_PORT: "{{ mailcow__config_http_port }}"
+  HTTP_BIND: "{{ (mailcow__config_http_bind | ansible.utils.ipaddr) if mailcow__config_http_bind is not none else '' }}"
+  HTTPS_PORT: "{{ mailcow__config_https_port }}"
+  HTTPS_BIND: "{{ (mailcow__config_https_bind | ansible.utils.ipaddr) if mailcow__config_https_bind is not none else '' }}"
+  ACL_ANYONE: "{{ mailcow__config_acl_anyone }}"
+  MAILDIR_GC_TIME: "{{ mailcow__config_maildir_gc_time }}"
+  ADDITIONAL_SAN: "{{ mailcow__config_additional_san | join(',') }}"
+  ADDITIONAL_SERVER_NAMES: "{{ mailcow__config_additional_server_names | join(',') }}"
+  SKIP_LETS_ENCRYPT: "{{ mailcow__config_skip_lets_encrypt }}"
+  ENABLE_SSL_SNI: "{{ mailcow__config_enable_ssl_sni }}"
+  SKIP_IP_CHECK: "{{ mailcow__config_skip_ip_check }}"
+  SKIP_HTTP_VERIFICATION: "{{ mailcow__config_skip_http_verification }}"
+  SKIP_CLAMD: "{{ mailcow__config_skip_clamd }}"
+  SKIP_SOGO: "{{ mailcow__config_skip_sogo }}"
+  ALLOW_ADMIN_EMAIL_LOGIN: "{{ mailcow__config_allow_admin_email_login }}"
+  USE_WATCHDOG: "{{ mailcow__config_use_watchdog }}"
+  WATCHDOG_NOTIFY_EMAIL: "{{ mailcow__config_watchdog_notify_email }}"
+  WATCHDOG_NOTIFY_BAN: "{{ mailcow__config_watchdog_notify_ban }}"
+  WATCHDOG_SUBJECT: "{{ mailcow__config_watchdog_subject }}"
+  WATCHDOG_EXTERNAL_CHECKS: "{{ mailcow__config_watchdog_external_checks }}"
+  LOG_LINES: "{{ mailcow__config_log_lines }}"
+  SOGO_EXPIRE_SESSION: "{{ mailcow__config_sogo_expire_session }}"
+  COMPOSE_PROJECT_NAME: "{{ mailcow__docker_compose_project_name }}"
+  ACME_CONTACT: "{{ mailcow__config_acme_contact }}"
+  FTS_HEAP: "{{ mailcow__config_fts_heap }}"
+  FTS_PROCS: "{{ mailcow__config_fts_procs }}"
+  SKIP_FTS: "{{ mailcow__config_skip_fts }}"
+  HTTP_REDIRECT: "{{ mailcow__config_http_redirect }}"
+
+# -------------
+# Final Mailcow.conf
+# -------------
+
+mailcow__config_real: "{{ mailcow__config_default | combine(mailcow__config) }}"

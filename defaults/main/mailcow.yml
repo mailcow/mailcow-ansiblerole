@@ -1,14 +1,20 @@
 ---
-
 # -------------
 # Mailcow.conf
+#
+# These values will be combined with mailcow__config_default
+# -------------
+
+mailcow__config: {}
+
+# -------------
+# Mailcow.conf legacy configuration & default values
 # -------------
 
 mailcow__config_http_port: 80
 mailcow__config_http_bind:
 mailcow__config_https_port: 443
 mailcow__config_https_bind:
-
 
 # Set this to "allow" to enable the anyone pseudo user. Disabled by default.
 # When enabled, ACL can be created, that apply to "All authenticated users"
