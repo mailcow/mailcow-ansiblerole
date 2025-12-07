@@ -6,7 +6,8 @@
     {{ mailcow__compose_command }} --project-name {{ mailcow__docker_compose_project_name }} restart
   args:
     chdir: "{{ mailcow__install_path }}"
-
+  changed_when: true
+  
 - name: Recreate mailcow
   become: yes
   shell: |
@@ -16,6 +17,7 @@
     chdir: "{{ mailcow__install_path }}"
   when:
     - not (ansible_fresh_install | default(false))
+  changed_when: true
 
 - name: Restart mailcow rspamd
   become: yes
@@ -25,3 +27,4 @@
     chdir: "{{ mailcow__install_path }}"
   when:
     - not (ansible_fresh_install | default(false))
+  changed_when: true

@@ -12,6 +12,7 @@
   file:
     dest: /var/log/mailcow-update/
     state: directory
+    mode: '0755'
 
 - name: Update mailcow
   become: yes
@@ -32,5 +33,6 @@
   copy:
     content: "{{ mailcow_update.stdout }}"
     dest: "/var/log/mailcow-update/update-{{ ansible_date_time.iso8601_basic_short }}.log"
+    mode: '0644'
   no_log: True
   when: 'not "No updates are available" in mailcow_update.stdout'

@@ -53,6 +53,7 @@
   template:
     src: vars.local.inc.php.j2
     dest: "{{ mailcow__install_path }}/data/web/inc/vars.local.inc.php"
+    mode: "0644"
 
 - name: Check if mailcow containers are running
   become: yes
@@ -68,6 +69,7 @@
     chdir: "{{ mailcow__install_path }}"
   when:
     - not mailcow_running.exists
+  changed_when: true
 
 - name: Update mailcow
   include_tasks: update.yml

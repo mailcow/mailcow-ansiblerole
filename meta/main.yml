@@ -4,7 +4,7 @@ galaxy_info:
   description: Setup mailcow dockerized using ansible
   role_name: mailcow
   namespace: mailcow
-  min_ansible_version: 2.11
+  min_ansible_version: "2.11"
   license: GNU General Public License 3
   platforms:
     - name: Ubuntu
@@ -16,6 +16,8 @@ galaxy_info:
     - mailcow
     - mailserver
     - docker
-  dependencies:
+dependencies:
    - role: docker-ce
    - role: docker-compose
+collections:
+  - community.docker
