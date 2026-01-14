@@ -35,6 +35,9 @@
     MAILCOW_HOSTNAME: "{{ mailcow__hostname }}"
     MAILCOW_TZ: "{{ mailcow__timezone }}"
     MAILCOW_BRANCH: "{{ mailcow__git_version }}"
+    MAILCOW_DBPASS: "{{ mailcow__dbpass | default(omit) }}"
+    MAILCOW_DBROOT: "{{ mailcow__dbroot | default(omit) }}"
+    MAILCOW_REDISPASS: "{{ mailcow__redispass | default(omit) }}"
   args:
     executable: /bin/bash
     chdir: "{{ mailcow__install_path }}"
