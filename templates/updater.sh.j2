@@ -14,7 +14,7 @@ if ./update.sh -c | grep -q 'Updated code is available'; then
   echo "Installing updates"
   printf "%s\n" "y" "y" | ./update.sh
 
-  echo "Collecting Gargabe"
+  echo "Collecting Garbage"
   echo 'y' | ./update.sh --gc
 else
   echo "No updates are available"
