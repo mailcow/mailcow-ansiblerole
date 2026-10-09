@@ -5,7 +5,9 @@
   template:
     src: updater.sh.j2
     dest: /opt/mailcowupdater.sh
-    mode: '0777'
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Create update logs directory
   become: yes
